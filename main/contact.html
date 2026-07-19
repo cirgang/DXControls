@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Contact | DXControls</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:Inter,sans-serif;
+background:#0b0d10;
+color:white;
+}
+
+nav{
+display:flex;
+justify-content:space-between;
+padding:25px 8%;
+background:#111;
+position:sticky;
+top:0;
+}
+
+.logo{
+font-size:28px;
+font-weight:700;
+}
+
+.logo span{
+color:#2ec84d;
+}
+
+nav ul{
+display:flex;
+list-style:none;
+gap:40px;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+}
+
+nav a:hover{
+color:#2ec84d;
+}
+
+.hero{
+
+padding:120px 10% 60px;
+text-align:center;
+
+}
+
+.hero h1{
+font-size:58px;
+margin-bottom:15px;
+}
+
+.hero p{
+color:#bdbdbd;
+font-size:20px;
+}
+
+.container{
+
+max-width:700px;
+margin:auto;
+padding:60px 10%;
+
+}
+
+form{
+
+display:flex;
+flex-direction:column;
+gap:20px;
+
+}
+
+input,
+textarea{
+
+background:#14191d;
+border:1px solid #2b2b2b;
+padding:18px;
+color:white;
+font-size:16px;
+border-radius:6px;
+
+}
+
+input:focus,
+textarea:focus{
+
+outline:none;
+border-color:#2ec84d;
+
+}
+
+textarea{
+
+height:180px;
+resize:vertical;
+
+}
+
+button{
+
+background:#2ec84d;
+color:black;
+padding:18px;
+border:none;
+border-radius:6px;
+font-weight:600;
+font-size:16px;
+cursor:pointer;
+transition:.25s;
+
+}
+
+button:hover{
+
+background:#3cdf5d;
+
+}
+
+.info{
+
+margin-top:60px;
+text-align:center;
+line-height:2;
+color:#aaa;
+
+}
+
+footer{
+
+margin-top:80px;
+padding:40px;
+text-align:center;
+border-top:1px solid #222;
+color:#777;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<nav>
+
+<div class="logo">
+DX<span>Controls</span>
+</div>
+
+<ul>
+<li><a href="index.html">Home</a></li>
+<li><a href="about.html">About</a></li>
+<li><a href="contact.html">Contact</a></li>
+</ul>
+
+</nav>
+
+<section class="hero">
+
+<h1>Contact</h1>
+
+<p>
+Let's discuss robotics, embedded systems, or future collaborations.
+</p>
+
+</section>
+
+<div class="container">
+
+<form>
+
+<input type="text" placeholder="Your Name">
+
+<input type="email" placeholder="Email Address">
+
+<input type="text" placeholder="Organization">
+
+<textarea placeholder="Message"></textarea>
+
+<button>
+Send Message
+</button>
+
+</form>
+
+<div class="info">
+
+<h2 style="color:#2ec84d;margin-bottom:15px;">DXControls</h2>
+
+<p>Advanced Robotics & Embedded Systems</p>
+
+<p>contact@dxcontrols.com</p>
+
+<p>Engineering reliable autonomous technologies.</p>
+
+</div>
+
+</div>
+
+<footer>
+
+© 2026 DXControls
+
+</footer>
+
+</body>
+</html>

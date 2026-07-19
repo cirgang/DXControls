@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DXControls</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Inter',sans-serif;
+    background:#0b0d10;
+    color:white;
+}
+
+nav{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:25px 8%;
+    position:fixed;
+    width:100%;
+    backdrop-filter:blur(12px);
+    background:rgba(10,10,10,.65);
+    z-index:100;
+}
+
+.logo{
+    font-size:28px;
+    font-weight:700;
+    letter-spacing:1px;
+}
+
+.logo span{
+    color:#2ec84d;
+}
+
+nav ul{
+    display:flex;
+    list-style:none;
+    gap:40px;
+}
+
+nav a{
+    text-decoration:none;
+    color:white;
+    transition:.25s;
+}
+
+nav a:hover{
+    color:#2ec84d;
+}
+
+.hero{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:120px 10%;
+    background:
+    radial-gradient(circle at top,#16351d 0%,transparent 45%),
+    #0b0d10;
+}
+
+.hero h1{
+    font-size:72px;
+    margin-bottom:20px;
+    line-height:1.05;
+}
+
+.hero h1 span{
+    color:#2ec84d;
+}
+
+.hero p{
+    color:#b7b7b7;
+    max-width:700px;
+    margin:auto;
+    font-size:20px;
+    line-height:1.8;
+}
+
+.buttons{
+    margin-top:45px;
+}
+
+.btn{
+    display:inline-block;
+    padding:16px 34px;
+    margin:10px;
+    border-radius:6px;
+    text-decoration:none;
+    font-weight:600;
+    transition:.25s;
+}
+
+.primary{
+    background:#2ec84d;
+    color:black;
+}
+
+.primary:hover{
+    background:#39dd59;
+}
+
+.secondary{
+    border:1px solid #2ec84d;
+    color:#2ec84d;
+}
+
+.secondary:hover{
+    background:#2ec84d;
+    color:black;
+}
+
+.features{
+    padding:120px 10%;
+}
+
+.features h2{
+    text-align:center;
+    font-size:42px;
+    margin-bottom:60px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:30px;
+}
+
+.card{
+    background:#11161b;
+    padding:40px;
+    border:1px solid #1e2a20;
+    border-radius:10px;
+    transition:.3s;
+}
+
+.card:hover{
+    border-color:#2ec84d;
+    transform:translateY(-6px);
+}
+
+.card h3{
+    color:#2ec84d;
+    margin-bottom:15px;
+}
+
+.card p{
+    color:#bdbdbd;
+    line-height:1.7;
+}
+
+.about{
+    padding:120px 10%;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:80px;
+    align-items:center;
+}
+
+.about h2{
+    font-size:44px;
+    margin-bottom:20px;
+}
+
+.about p{
+    color:#b7b7b7;
+    line-height:1.8;
+}
+
+.mockup{
+    height:350px;
+    border-radius:12px;
+    background:
+    linear-gradient(135deg,#1f3b25,#101315);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:140px;
+    color:#2ec84d;
+    font-weight:bold;
+}
+
+footer{
+    padding:60px;
+    text-align:center;
+    color:#777;
+    border-top:1px solid #1b1b1b;
+}
+
+@media(max-width:900px){
+
+.about{
+grid-template-columns:1fr;
+}
+
+.hero h1{
+font-size:52px;
+}
+
+nav ul{
+display:none;
+}
+
+}
+</style>
+
+</head>
+<body>
+
+<nav>
+
+<div class="logo">
+DX<span>Controls</span>
+</div>
+
+<ul>
+<li><a href="#">Technology</a></li>
+<li><a href="#">Products</a></li>
+<li><a href="#">Applications</a></li>
+<li><a href="#">About</a></li>
+<li><a href="#">Contact</a></li>
+</ul>
+
+</nav>
+
+<section class="hero">
+
+<div>
+
+<h1>
+Embedded Systems.<br>
+<span>Autonomous Robotics.</span>
+</h1>
+
+<p>
+DXControls develops advanced embedded electronics, autonomous robotic platforms,
+and intelligent control systems designed for demanding environments—from miniature
+UAVs to next-generation autonomous technologies.
+</p>
+
+<div class="buttons">
+
+<a class="btn primary" href="#">
+Explore Technology
+</a>
+
+<a class="btn secondary" href="#">
+Learn More
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="features">
+
+<h2>Built for the Future</h2>
+
+<div class="grid">
+
+<div class="card">
+<h3>Embedded Electronics</h3>
+<p>
+Custom control hardware, power electronics, sensor integration, and real-time firmware engineered for high-performance robotic systems.
+</p>
+</div>
+
+<div class="card">
+<h3>Autonomous Robotics</h3>
+<p>
+Compact aerial and ground robotic platforms leveraging advanced perception, navigation, and distributed autonomy.
+</p>
+</div>
+
+<div class="card">
+<h3>Mission Software</h3>
+<p>
+Reliable software architectures, secure communications, and intelligent control systems designed for scalable deployments.
+</p>
+</div>
+
+</div>
+
+</section>
+
+<section class="about">
+
+<div>
+
+<h2>
+Engineering Without Compromise
+</h2>
+
+<p>
+At DXControls, we build integrated robotic systems where hardware, firmware, and software are designed together. Our focus is on reliability, precision, and rapid innovation—from embedded controllers to fully autonomous robotic platforms.
+</p>
+
+</div>
+
+<div class="mockup">
+DXC
+</div>
+
+</section>
+
+<footer>
+
+© 2026 DXControls • Advanced Robotics & Embedded Systems
+
+</footer>
+
+</body>
+</html>
