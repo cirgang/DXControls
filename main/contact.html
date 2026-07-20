@@ -191,19 +191,66 @@ For product and business inquiries, please expect a response within 1-2 business
 </section>
 
 <div class="container">
-
-<form id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID_HERE" method="POST">
+<form id="contactForm" action="https://formsubmit.co/contact@dxcontrols.com" method="POST">
   
-  <input type="text" name="name" id="name" placeholder="Your Name" required>
-  <input type="email" name="email" id="email" placeholder="Email Address" required>
-  <input type="text" name="organization" id="organization" placeholder="Organization">
-  <textarea name="message" id="message" placeholder="Message" required></textarea>
-  
-  <button type="submit">
-    Send Message
-  </button>
+  <!-- FormSubmit configuration -->
+  <!-- Send a copy to a second email (optional, delete if not needed) -->
+  <input type="hidden" name="_cc" value="cowdench@umich.edu">
+  <!-- Disable the visual captcha for a smoother inline experience --> 
+  <!--input type="hidden" name="_captcha" value="false"-->
 
+  <!-- Inputs ('name' for the email, 'id' for the JS) -->
+  <input type="text" id="name" name="Name" placeholder="Your Name" required>
+  <input type="email" id="email" name="Email" placeholder="Email Address" required>
+  <input type="text" id="organization" name="Organization" placeholder="Organization" required>
+  <textarea id="message" name="Message" placeholder="Message" required></textarea>
+
+  <button id="submitBtn" type="submit">Send Message</button>
+  
+  <!-- Where the Success/Oops message will appear -->
+  <div id="formStatus" style="text-align: center; font-weight: 500; margin-top: 10px;"></div>
 </form>
+
+<script>
+document.getElementById('contactForm').addEventListener('submit', async function(e) {
+  e.preventDefault(); // Stops the page from redirecting
+  
+  const form = e.target;
+  const submitBtn = document.getElementById('submitBtn');
+  const statusDiv = document.getElementById('formStatus');
+  
+  // Update UI while sending
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Sending...';
+  statusDiv.textContent = ''; 
+
+  try {
+    // Send data to FormSubmit in the background
+    const response = await fetch(form.action, {
+      method: form.method,
+      body: new FormData(form),
+      headers: {
+        // This tells FormSubmit to reply quietly instead of redirecting the page
+        'Accept': 'application/json' 
+      }
+    });
+    
+    if (response.ok) {
+      statusDiv.style.color = '#2ec84d'; 
+      statusDiv.textContent = 'Message Sent ✓';
+      form.reset(); // Clear the fields
+    } else {
+      throw new Error('Failed to send');
+    }
+  } catch (error) {
+    statusDiv.style.color = '#ff4a4a'; 
+    statusDiv.textContent = 'Oops! There was a problem sending your message.';
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Send Message';
+  }
+});
+</script>
 
 <div class="info">
 
