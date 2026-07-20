@@ -1,6 +1,6 @@
-This is the offcicial website of DXControls (DXC)
+This is the official website of DXControls (DXC)
 
-Founded DD/MM/YYYY
+Founded 7/19/2026
 
 Founders:
 - Chloe Irgang (Electrical Engineering UMich)
