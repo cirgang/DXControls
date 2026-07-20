@@ -1,4 +1,4 @@
-This is the official website of DXControls (DXC)
+Developing the website of DXControls (DXC)
 
 Founded 7/19/2026
 
