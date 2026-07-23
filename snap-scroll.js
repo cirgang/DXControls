@@ -20,8 +20,8 @@
   let animationStartY = 0;
   let animationDestinationY = 0;
   let footerMode = false;
-  let footerIntent = false;
-  let footerCarry = 0;
+  let footerInputLockUntil = 0;
+  let wheelCooldownUntil = 0;
 
   const clamp = (value, minimum, maximum) =>
     Math.min(Math.max(value, minimum), maximum);
@@ -51,8 +51,8 @@
     window.clearTimeout(settleTimer);
 
     footerMode = false;
-    footerIntent = false;
-    footerCarry = 0;
+    footerInputLockUntil = 0;
+    wheelCooldownUntil = 0;
     targetIndex = clamp(index, 0, snapPanels.length - 1);
     animationStartY = window.scrollY;
     animationDestinationY = panelY(targetIndex);
@@ -79,27 +79,8 @@
         window.scrollTo(0, animationDestinationY);
         isAnimating = false;
         wheelAccumulator = 0;
-
-        const lastIndex = snapPanels.length - 1;
-        const maximumScrollY =
-          document.documentElement.scrollHeight - window.innerHeight;
-
-        if (
-          targetIndex === lastIndex &&
-          footerIntent &&
-          maximumScrollY > animationDestinationY + 2
-        ) {
-          footerMode = true;
-          footerIntent = false;
-          window.scrollTo(0, clamp(
-            animationDestinationY + footerCarry,
-            animationDestinationY,
-            maximumScrollY
-          ));
-          footerCarry = 0;
-        } else {
-          root.classList.remove('is-wheel-snapping');
-        }
+        wheelCooldownUntil = performance.now() + 180;
+        root.classList.remove('is-wheel-snapping');
       }
     };
 
@@ -123,8 +104,22 @@
 
     if (footerMode) {
       event.preventDefault();
+
+      if (
+        direction > 0 &&
+        performance.now() < footerInputLockUntil
+      ) {
+        return;
+      }
+
+      footerInputLockUntil = 0;
+      const footerStepDistance = Math.max(
+        (maximumScrollY - lastPanelY) / 2,
+        1
+      );
       const footerScrollY = clamp(
-        window.scrollY + delta,
+        window.scrollY +
+        direction * Math.max(Math.abs(delta), footerStepDistance),
         lastPanelY,
         maximumScrollY
       );
@@ -132,9 +127,19 @@
 
       if (direction < 0 && footerScrollY <= lastPanelY + 1) {
         footerMode = false;
+        footerInputLockUntil = 0;
         root.classList.remove('is-wheel-snapping');
         window.scrollTo(0, lastPanelY);
       }
+      return;
+    }
+
+    if (
+      !isAnimating &&
+      direction === lastDirection &&
+      performance.now() < wheelCooldownUntil
+    ) {
+      event.preventDefault();
       return;
     }
 
@@ -146,39 +151,9 @@
       const destinationDirection = Math.sign(
         animationDestinationY - window.scrollY
       );
-      const remainingDistance =
-        animationDestinationY - window.scrollY;
-
-      if (
-        targetIndex === lastIndex &&
-        direction > 0 &&
-        remainingDistance >= 0 &&
-        remainingDistance <= 96 &&
-        maximumScrollY > lastPanelY + 2
-      ) {
-        window.cancelAnimationFrame(animationFrame);
-        window.clearTimeout(settleTimer);
-        isAnimating = false;
-        footerMode = true;
-        root.classList.add('is-wheel-snapping');
-        window.scrollTo(0, clamp(
-          lastPanelY + delta,
-          lastPanelY,
-          maximumScrollY
-        ));
-        return;
-      }
-
-      if (targetIndex === lastIndex && direction > 0) {
-        footerIntent = true;
-        footerCarry = Math.max(footerCarry, Math.abs(delta));
-      }
 
       if (direction !== destinationDirection && destinationDirection !== 0) {
         animateToPanel(targetIndex + direction, 480);
-      } else {
-        animationStartedAt -= clamp(Math.abs(delta) * .04, 8, 48);
-        animationDuration = Math.max(380, animationDuration - 6);
       }
       return;
     }
@@ -196,14 +171,13 @@
       window.clearTimeout(settleTimer);
       isAnimating = false;
       footerMode = true;
-      footerIntent = false;
-      footerCarry = 0;
+      footerInputLockUntil = performance.now() + 180;
+      wheelCooldownUntil = 0;
       root.classList.add('is-wheel-snapping');
-      window.scrollTo(0, clamp(
-        window.scrollY + delta,
-        lastPanelY,
-        maximumScrollY
-      ));
+      window.scrollTo(
+        0,
+        lastPanelY + (maximumScrollY - lastPanelY) / 2
+      );
       return;
     }
 
@@ -231,6 +205,8 @@
   const leaveFooterMode = () => {
     if (!footerMode) return;
     footerMode = false;
+    footerInputLockUntil = 0;
+    wheelCooldownUntil = 0;
     root.classList.remove('is-wheel-snapping');
   };
 

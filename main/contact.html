@@ -183,7 +183,7 @@ margin:auto;
 }
 
 </style>
-<link rel="stylesheet" href="../forge-signal.css">
+<link rel="stylesheet" href="../colors-and-layout.css">
 
 </head>
 
@@ -239,6 +239,8 @@ Expect business responses within two business days.
 <form id="contactForm" action="https://formsubmit.co/ajax/cowdench@umich.edu" method="POST">
   <!-- COPY RECIPIENT — UPDATE THIS ADDRESS WHEN THE COMPANY EMAIL CHANGES. -->
   <input type="hidden" name="_cc" value="cowdench@gmail.com">
+  <!-- UPDATE THIS URL IF THE PRODUCTION CONTACT-PAGE ADDRESS CHANGES. -->
+  <input type="hidden" name="_url" value="https://dxcontrols.com/main/contact.html">
   <input type="hidden" name="_subject" value="New DXControls website inquiry">
   <input type="hidden" name="_template" value="table">
   <input type="text" name="_honey" tabindex="-1" autocomplete="off" style="display:none">
@@ -252,7 +254,7 @@ Expect business responses within two business days.
   <p class="security-note">For your security, do not include passwords or sensitive, controlled, or proprietary technical data.</p>
   
   <!-- Where the Success/Oops message will appear -->
-  <div id="formStatus" style="text-align: center; font-weight: 500; margin-top: 10px;"></div>
+  <div id="formStatus" role="status" aria-live="polite" style="text-align: center; font-weight: 500; margin-top: 10px;"></div>
 </form>
 
 <script>
@@ -266,24 +268,36 @@ document.getElementById('contactForm').addEventListener('submit', async function
   submitBtn.disabled = true;
   submitBtn.textContent = 'Sending...';
   statusDiv.textContent = '';
-  statusDiv.setAttribute('role', 'status');
 
   try {
-    // FormSubmit's /ajax/ endpoint is required for a background fetch.
+    // FormSubmit documents JSON for Fetch requests to its /ajax/ endpoint.
+    const payload = Object.fromEntries(new FormData(form).entries());
     const response = await fetch(form.action, {
-      method: form.method,
-      body: new FormData(form),
-      headers: { 'Accept': 'application/json' }
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(payload)
     });
 
-    const result = await response.json();
+    const result = await response.json().catch(() => ({}));
+    const accepted =
+      result.success === true ||
+      result.success === 'true';
+    const responseMessage = String(result.message || '');
+    const activationRequired = /activat|confirm/i.test(responseMessage);
 
-    if (response.ok && result.success !== false) {
+    if (response.ok && accepted && activationRequired) {
+      statusDiv.style.color = '#FF8A1F';
+      statusDiv.textContent =
+        'The contact form is awaiting owner activation. Please email cowdench@umich.edu directly for now.';
+    } else if (response.ok && accepted) {
       statusDiv.style.color = '#FF8A1F';
       statusDiv.textContent = 'Message sent. Thank you!';
       form.reset();
     } else {
-      throw new Error(result.message || 'FormSubmit rejected the message.');
+      throw new Error(responseMessage || 'FormSubmit rejected the message.');
     }
   } catch (error) {
     console.error('Contact form submission failed:', error);
