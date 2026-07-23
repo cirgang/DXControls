@@ -58,8 +58,35 @@ color:#2ec84d;
 }
 
 .hero{
-padding:140px 10% 80px;
+padding:140px 10% 48px;
 text-align:center;
+position:relative;
+isolation:isolate;
+overflow:hidden;
+}
+
+body .hero{
+background:var(--forge-bg);
+}
+
+.hero::before{
+content:"";
+position:absolute;
+z-index:-1;
+inset:0;
+opacity:0;
+background:radial-gradient(
+circle at 50% 0,
+rgba(255,138,31,.14),
+transparent 45%
+);
+animation:about-glow-in .8s ease-out .08s forwards;
+}
+
+@keyframes about-glow-in{
+to{
+opacity:1;
+}
 }
 
 .hero h1{
@@ -70,15 +97,37 @@ margin-bottom:20px;
 .hero p{
 max-width:800px;
 margin:auto;
-font-size:20px;
+font-size:22px;
 line-height:1.8;
 color:#bdbdbd;
+}
+
+.hero .philosophy{
+color:#E3E6EA;
+}
+
+.philosophy-rule{
+width:min(440px,58vw);
+height:1px;
+margin:36px auto 0;
+background:linear-gradient(90deg,transparent,#FF8A1F,transparent);
+opacity:0;
+transform:scaleX(0);
+transform-origin:center;
+animation:philosophy-rule-in .58s cubic-bezier(.22,.72,.2,1) .2s forwards;
+}
+
+@keyframes philosophy-rule-in{
+to{
+opacity:1;
+transform:scaleX(1);
+}
 }
 
 .section{
 max-width:1100px;
 margin:auto;
-padding:80px 10%;
+padding:52px 10% 80px;
 }
 
 .section h2{
@@ -94,33 +143,124 @@ color:#c8c8c8;
 margin-bottom:25px;
 }
 
-.values{
+.approach{
+position:relative;
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:30px;
-margin-top:50px;
+margin-top:42px;
+border-bottom:1px solid rgba(168,175,186,.18);
 }
 
-.card{
-background:#12171b;
-padding:35px;
-border:1px solid #222;
-border-radius:10px;
+.approach-step{
+display:grid;
+grid-template-columns:72px minmax(190px,.65fr) minmax(0,1.35fr);
+gap:32px;
+align-items:start;
+padding:32px 0;
+border-top:1px solid rgba(168,175,186,.18);
+position:relative;
+transition:background .25s,transform .25s;
+scroll-margin-top:110px;
+cursor:pointer;
 }
 
-.card h3{
-margin-bottom:15px;
-color:#2ec84d;
+.approach-step:hover{
+background:linear-gradient(90deg,rgba(255,138,31,.07),transparent 65%);
+transform:translateX(9px);
 }
 
-footer{
-padding:50px;
-text-align:center;
-color:#777;
-border-top:1px solid #222;
+.approach-step.is-highlighted{
+background:linear-gradient(90deg,rgba(255,138,31,.11),transparent 72%);
+}
+
+.approach-step:focus-visible{
+outline:1px solid #FF8A1F;
+outline-offset:6px;
+}
+
+.step-number{
+width:42px;
+height:42px;
+display:grid;
+place-items:center;
+border:1px solid rgba(255,138,31,.55);
+color:#FF8A1F;
+font-size:11px;
+font-weight:600;
+letter-spacing:.12em;
+transform:rotate(45deg);
+}
+
+.step-number span{
+transform:rotate(-45deg);
+}
+
+.step-heading small{
+display:block;
+margin-bottom:10px;
+color:#A8AFBA;
+font-size:10px;
+font-weight:600;
+letter-spacing:.16em;
+text-transform:uppercase;
+}
+
+.step-heading h3{
+color:#F7F8FA;
+font-size:24px;
+line-height:1.2;
+}
+
+.approach-step .step-copy{
+margin:0;
+color:#A8AFBA;
+font-size:16px;
+line-height:1.75;
+}
+
+@media(max-width:720px){
+.hero{
+padding:100px 8% 54px;
+}
+
+@media(prefers-reduced-motion:reduce){
+.hero::before,
+.philosophy-rule{
+animation:none;
+opacity:1;
+transform:none;
+}
+}
+
+.hero h1{
+font-size:44px;
+line-height:1.08;
+}
+
+.hero p{
+font-size:18px;
+}
+
+.section{
+padding:60px 8%;
+}
+
+.section h2{
+font-size:32px;
+}
+
+.approach-step{
+grid-template-columns:54px 1fr;
+gap:20px;
+padding:26px 0;
+}
+
+.approach-step .step-copy{
+grid-column:2;
+}
 }
 
 </style>
+<link rel="stylesheet" href="../forge-signal.css">
 
 </head>
 
@@ -136,8 +276,6 @@ DX<span>Controls</span>
 
 <li><a href="/index.html">Home</a></li>
 <li><a href="/main/about.html">About</a></li>
-<li><a href="/main/technology.html">Technology</a></li>
-<li><a href="/main/applications.html">Applications</a></li>
 <li><a href="/main/products.html">Products</a></li>
 <li><a href="/main/contact.html">Contact</a></li>
 
@@ -147,15 +285,12 @@ DX<span>Controls</span>
 
 <section class="hero">
 
-<h1>The Next Generation of Robotics</h1>
+<h1>Smaller Systems.<br>Greater Autonomy.</h1>
 
-<p>
-DXControls develops autonomous robotic platforms integrated with AI for commercial, security, and advanced research applications. 
+<p class="philosophy">
+Our philosophy is straightforward: engineer reliable, cost-efficient, American-made robotic systems with modularity built in from the start.
 </p>
-  <br>
-</p>
-Our philosophy is simple: engineer reliable, cost-efficient, and American-made robotics with multi-purpose modularity.
-</p>
+<div class="philosophy-rule" aria-hidden="true"></div>
 
 </section>
 
@@ -164,38 +299,52 @@ Our philosophy is simple: engineer reliable, cost-efficient, and American-made r
 <h2 style="text-align: center;">Our Vision</h2>
 
 <p>
-Here at DXC, we see a future with smaller, smarter, and more capable robotics that work together. A network of UAVs which cooperate, analogous to a swarm of bees, would require only a single operator. 
-From security to rescue, high modularity with low-cost of these robotics systems offers use across a wide-array of industries.   
+We see a future of smaller, smarter robotic systems working together. A coordinated network of compact UAVs could allow one operator to supervise an entire fleet. Modular, low-cost platforms can support missions ranging from security to search and rescue.
 </p>
 
 <p>
-Whether developing miniature UAVs, custom embedded controllers, or autonomous sensing platforms, our engineering-first mindset requires strong customer-producer relationships. 
-With great ambitions comes great responsibility to deliver reliable, high-quality products. 
+We develop miniature UAVs, embedded controllers, and autonomous sensing platforms in close collaboration with customers. That partnership keeps each system practical, reliable, and aligned with its mission.
 </p>
   
 <h2 style="text-align: center;">Our Approach</h2>
   
-<div class="values">
+<div class="approach">
 
-<div class="card">
+<article class="approach-step" id="embedded-systems">
+<div class="step-number"><span>01</span></div>
+<div class="step-heading">
+<small>Foundation</small>
 <h3>Embedded Systems</h3>
-<p>Embedded systems are the computers/hardware designed for a specific task. DXC specialists have unique and extensive history with UAV embedded systems, which enables realization of our vision. </p>
 </div>
+<p class="step-copy">Purpose-built computers and control hardware form the foundation of every DXC platform. Our UAV experience helps us design compact electronics around the constraints of flight rather than adapting generic hardware afterward.</p>
+</article>
 
-<div class="card">
+<article class="approach-step" id="autonomous-robotics">
+<div class="step-number"><span>02</span></div>
+<div class="step-heading">
+<small>Intelligence</small>
 <h3>Autonomous Robotics</h3>
-<p>Designing autonomous robotics relies upon intelligent control systems: the foundation of AI. Building upon strong hardware, various machine learning techniques and algorithmic techniques enable novel autonomy, whereby products can act without constant human operation. </p>
 </div>
+<p class="step-copy">Sensors, intelligent control, and machine-learning methods build on that hardware foundation, allowing robotic platforms to perceive their surroundings and act without constant operator input.</p>
+</article>
 
-<div class="card">
-<h3>Innovative Software</h3>
-<p>Rapid iteration, practical engineering, and continuous improvement for autonomous robotics creates distinct challenges, which requires powerful software. Alongside AI, our engineers focus upon meshed networks to enable communication between various robotic systems.  </p>
+<article class="approach-step" id="mission-software">
+<div class="step-number"><span>03</span></div>
+<div class="step-heading">
+<small>Coordination</small>
+<h3>Mission Software</h3>
 </div>
+<p class="step-copy">Reliable software turns individual vehicles into useful systems. DXC focuses on rapid iteration, secure communication, and networked coordination between multiple robotic platforms.</p>
+</article>
   
-<div class="card">
+<article class="approach-step">
+<div class="step-number"><span>04</span></div>
+<div class="step-heading">
+<small>Adaptability</small>
 <h3>Modularity</h3>
-<p>With developed platforms, such as UAV systems, modularity is vital to our vision. Whether installing a certain camera system, intelligence unit, or payloads for various tasks, our hardware enables customers to find individualized uses for our platforms.  </p>
 </div>
+<p class="step-copy">Interchangeable cameras, sensing packages, compute modules, and payloads let customers configure a common platform for distinct missions without rebuilding the aircraft around each use case.</p>
+</article>
 </div>
 
 </section>
@@ -205,6 +354,43 @@ With great ambitions comes great responsibility to deliver reliable, high-qualit
 © 2026 DXControls
 
 </footer>
+
+<script>
+const approachSteps = [...document.querySelectorAll('.approach-step')];
+
+const setHighlight = (step, highlighted) => {
+  step.classList.toggle('is-highlighted', highlighted);
+  step.setAttribute('aria-pressed', String(highlighted));
+};
+
+approachSteps.forEach((step) => {
+  step.setAttribute('role', 'button');
+  step.setAttribute('tabindex', '0');
+  setHighlight(step, false);
+
+  const toggleHighlight = () =>
+    setHighlight(step, !step.classList.contains('is-highlighted'));
+
+  step.addEventListener('click', toggleHighlight);
+  step.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      toggleHighlight();
+    }
+  });
+});
+
+const highlightLinkedStep = () => {
+  if (!location.hash) return;
+  const linkedStep = document.querySelector(location.hash);
+  if (linkedStep?.classList.contains('approach-step')) {
+    setHighlight(linkedStep, true);
+  }
+};
+
+highlightLinkedStep();
+window.addEventListener('hashchange', highlightLinkedStep);
+</script>
 
 </body>
 </html>

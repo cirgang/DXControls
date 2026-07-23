@@ -208,15 +208,6 @@ background:#43df62;
 
 }
 
-footer{
-
-padding:60px;
-text-align:center;
-color:#666;
-border-top:1px solid #222;
-
-}
-
 @media(max-width:900px){
 
 .product{
@@ -233,7 +224,37 @@ font-size:48px;
 
 }
 
+@media(min-width:901px){
+
+html{
+scroll-behavior:smooth;
+scroll-padding-top:82px;
+scroll-snap-type:y mandatory;
+}
+
+.product{
+scroll-snap-align:start;
+scroll-snap-stop:always;
+}
+
+.products{
+padding:0 8%;
+}
+
+.product{
+min-height:100svh;
+margin-bottom:0;
+padding:48px 0;
+}
+
+.image{
+height:min(430px,55svh);
+}
+
+}
+
 </style>
+<link rel="stylesheet" href="../forge-signal.css">
 
 </head>
 
@@ -249,8 +270,6 @@ DX<span>Controls</span>
 
 <li><a href="/index.html">Home</a></li>
 <li><a href="/main/about.html">About</a></li>
-<li><a href="/main/technology.html">Technology</a></li>
-<li><a href="/main/applications.html">Applications</a></li>
 <li><a href="/main/products.html">Products</a></li>
 <li><a href="/main/contact.html">Contact</a></li>
 
@@ -258,19 +277,9 @@ DX<span>Controls</span>
 
 </nav>
 
-<section class="hero">
-
-<h1>Products</h1>
-
-<p>
-Purpose-built autonomous systems, embedded electronics, and robotics engineered for performance, reliability, and scalability.
-</p>
-
-</section>
-
 <section class="products">
 
-<div class="product">
+<div class="product" data-snap-panel>
 
 <div class="image">
 
@@ -349,7 +358,7 @@ View Datasheet
 
 </div>
 
-<div class="product">
+<div class="product" data-snap-panel>
 
 <div class="info">
 
@@ -420,7 +429,7 @@ PCB Image
 
 </div>
 
-<div class="product">
+<div class="product" data-snap-panel>
 
 <div class="image">
 
@@ -482,6 +491,8 @@ Coming Soon
 © 2026 DXControls
 
 </footer>
+
+<script src="/snap-scroll.js"></script>
 
 </body>
 </html>

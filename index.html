@@ -14,10 +14,29 @@
     box-sizing:border-box;
 }
 
+:root{
+    --forge-bg:#121417;
+    --forge-surface:#2B3038;
+    --forge-surface-deep:#1B1F24;
+    --forge-orange:#FF8A1F;
+    --forge-orange-hover:#FFA24D;
+    --forge-muted:#A8AFBA;
+    --forge-white:#F7F8FA;
+    --forge-line:rgba(168,175,186,.18);
+    --telemetry-grid-size:34px;
+    --telemetry-grid-color:rgba(255,138,31,.07);
+    --telemetry-grid-origin:82px;
+}
+
+html{
+    scroll-behavior:smooth;
+    scroll-padding-top:82px;
+}
+
 body{
     font-family:'Inter',sans-serif;
-    background:#0b0d10;
-    color:white;
+    background:var(--forge-bg);
+    color:var(--forge-white);
 }
 
 nav{
@@ -28,18 +47,22 @@ nav{
     position:fixed;
     width:100%;
     backdrop-filter:blur(12px);
-    background:rgba(10,10,10,.65);
+    background:rgba(18,20,23,.82);
+    border-bottom:1px solid var(--forge-line);
     z-index:100;
 }
 
 .logo{
+    flex:0 0 auto;
     font-size:28px;
     font-weight:700;
     letter-spacing:1px;
+    line-height:1.2;
+    white-space:nowrap;
 }
 
 .logo span{
-    color:#2ec84d;
+    color:var(--forge-orange);
 }
 
 nav ul{
@@ -50,42 +73,88 @@ nav ul{
 
 nav a{
     text-decoration:none;
-    color:white;
+    color:var(--forge-white);
     transition:.25s;
 }
 
 nav a:hover{
-    color:#2ec84d;
+    color:var(--forge-orange);
 }
 
 .hero{
     min-height:100vh;
-    display:flex;
-    justify-content:center;
+    display:grid;
+    grid-template-columns:minmax(0,1.08fr) minmax(360px,.92fr);
+    gap:7vw;
     align-items:center;
-    text-align:center;
-    padding:120px 10%;
+    padding:110px 8% 30px;
     background:
-    radial-gradient(circle at top,#16351d 0%,transparent 45%),
-    #0b0d10;
+    radial-gradient(circle at 78% 34%,rgba(255,138,31,.12) 0%,transparent 34%),
+    linear-gradient(135deg,#121417 0%,#16191d 55%,#121417 100%);
+    position:relative;
+    isolation:isolate;
+    overflow:hidden;
+}
+
+.hero::before{
+    content:"";
+    position:absolute;
+    z-index:-1;
+    inset:82px 0 0;
+    background-image:
+        linear-gradient(var(--telemetry-grid-color) 1px,transparent 1px),
+        linear-gradient(90deg,var(--telemetry-grid-color) 1px,transparent 1px);
+    background-size:var(--telemetry-grid-size) var(--telemetry-grid-size);
+    mask-image:linear-gradient(90deg,rgba(0,0,0,.38),black 54%,rgba(0,0,0,.6));
+}
+
+.hero::after{
+    content:"";
+    position:absolute;
+    z-index:-1;
+    inset:auto 0 0;
+    height:150px;
+    background:linear-gradient(to bottom,transparent,var(--forge-bg));
+    pointer-events:none;
 }
 
 .hero h1{
-    font-size:72px;
+    font-size:clamp(50px,5.1vw,72px);
     margin-bottom:20px;
-    line-height:1.05;
+    line-height:1;
+    letter-spacing:-.045em;
+    max-width:800px;
 }
 
 .hero h1 span{
-    color:#2ec84d;
+    color:var(--forge-orange);
 }
 
 .hero p{
-    color:#b7b7b7;
-    max-width:700px;
-    margin:auto;
-    font-size:20px;
-    line-height:1.8;
+    color:var(--forge-muted);
+    max-width:680px;
+    font-size:18px;
+    line-height:1.75;
+}
+
+.eyebrow{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:24px;
+    color:var(--forge-white);
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+}
+
+.eyebrow::before{
+    content:"";
+    width:8px;
+    height:8px;
+    background:var(--forge-orange);
+    box-shadow:0 0 18px rgba(255,138,31,.75);
 }
 
 .buttons{
@@ -96,72 +165,362 @@ nav a:hover{
     display:inline-block;
     padding:16px 34px;
     margin:10px;
-    border-radius:6px;
+    border-radius:4px;
     text-decoration:none;
     font-weight:600;
+    letter-spacing:.04em;
     transition:.25s;
 }
 
 .primary{
-    background:#2ec84d;
-    color:black;
+    background:var(--forge-orange);
+    color:var(--forge-bg);
 }
 
 .primary:hover{
-    background:#39dd59;
+    background:var(--forge-orange-hover);
+    transform:translateY(-2px);
 }
 
 .secondary{
-    border:1px solid #2ec84d;
-    color:#2ec84d;
+    border:1px solid rgba(247,248,250,.42);
+    color:var(--forge-white);
 }
 
 .secondary:hover{
-    background:#2ec84d;
-    color:black;
+    border-color:var(--forge-orange);
+    color:var(--forge-orange);
+}
+
+.hero-visual{
+    position:relative;
+    min-height:440px;
+    overflow:hidden;
+    border:1px solid rgba(168,175,186,.14);
+    background:linear-gradient(145deg,rgba(43,48,56,.28),rgba(18,20,23,.08));
+    box-shadow:inset 0 0 80px rgba(18,20,23,.18);
+}
+
+.hero-visual::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:radial-gradient(circle at center,rgba(255,138,31,.07),transparent 56%);
+}
+
+.hero-visual::after{
+    content:"";
+    position:absolute;
+    inset:12px;
+    border:1px solid rgba(255,138,31,.2);
+    pointer-events:none;
+}
+
+.orbit{
+    position:absolute;
+    left:50%;
+    top:50%;
+    translate:-50% -50%;
+    border:1px solid rgba(168,175,186,.35);
+    border-radius:50%;
+}
+
+.orbit-one{width:330px;height:330px}
+.orbit-two{
+    width:218px;
+    height:218px;
+    border-color:rgba(255,138,31,.48);
+    box-shadow:0 0 55px rgba(255,138,31,.08);
+}
+
+.drone{
+    position:absolute;
+    left:50%;
+    top:50%;
+    width:226px;
+    height:226px;
+    translate:-50% -50%;
+    filter:drop-shadow(0 20px 22px rgba(0,0,0,.48));
+}
+
+.drone-arm{
+    position:absolute;
+    left:30px;
+    top:111px;
+    width:166px;
+    height:5px;
+    background:linear-gradient(90deg,var(--forge-muted),var(--forge-orange),var(--forge-muted));
+    transform-origin:center;
+}
+
+.arm-a{transform:rotate(45deg)}
+.arm-b{transform:rotate(-45deg)}
+
+.rotor{
+    position:absolute;
+    width:47px;
+    height:47px;
+    border:3px solid var(--forge-muted);
+    border-radius:50%;
+    background:rgba(18,20,23,.7);
+    box-shadow:inset 0 0 0 7px rgba(168,175,186,.08);
+}
+
+.rotor::after{
+    content:"";
+    position:absolute;
+    inset:18px;
+    border-radius:50%;
+    background:var(--forge-orange);
+}
+
+.rotor-a{left:4px;top:4px}
+.rotor-b{right:4px;top:4px}
+.rotor-c{left:4px;bottom:4px}
+.rotor-d{right:4px;bottom:4px}
+
+.drone-body{
+    position:absolute;
+    width:54px;
+    height:78px;
+    left:86px;
+    top:74px;
+    background:var(--forge-white);
+    clip-path:polygon(50% 0,100% 72%,70% 100%,30% 100%,0 72%);
+    box-shadow:inset 0 -16px 0 rgba(168,175,186,.45);
+}
+
+.drone-body::after{
+    content:"";
+    position:absolute;
+    width:9px;
+    height:24px;
+    left:23px;
+    top:24px;
+    background:var(--forge-orange);
+}
+
+.readout{
+    position:absolute;
+    z-index:2;
+    color:var(--forge-muted);
+    font-size:10px;
+    font-weight:600;
+    letter-spacing:.16em;
+}
+
+.readout strong{
+    display:block;
+    margin-top:5px;
+    color:var(--forge-white);
+    font-size:16px;
+    line-height:1.2;
+}
+
+.telemetry-value{
+    text-shadow:
+        0 0 9px rgba(255,138,31,.65),
+        0 0 18px rgba(255,138,31,.28);
+}
+
+.telemetry-value.is-calibrating{
+    animation:telemetry-pulse .52s ease-in-out infinite;
+}
+
+@keyframes telemetry-pulse{
+    50%{
+        opacity:.54;
+        text-shadow:0 0 8px rgba(255,138,31,.65);
+    }
+}
+
+.readout-a{left:28px;top:28px}
+.readout-b{right:28px;top:28px;text-align:right}
+.readout-c{right:28px;bottom:28px;text-align:right}
+.readout-c strong{color:var(--forge-orange)}
+
+.visual-label{
+    position:absolute;
+    left:28px;
+    bottom:28px;
+    color:var(--forge-orange);
+    font-size:10px;
+    font-weight:600;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    text-shadow:
+        0 0 12px rgba(255,138,31,.78),
+        0 0 24px rgba(255,138,31,.28);
+}
+
+.section-nav{
+    position:fixed;
+    z-index:90;
+    left:28px;
+    top:50%;
+    translate:0 -50%;
+    display:grid;
+    gap:13px;
+}
+
+.section-nav a{
+    width:7px;
+    height:7px;
+    border:1px solid var(--forge-muted);
+    background:var(--forge-bg);
+    rotate:45deg;
+    transition:.25s;
+}
+
+.section-nav a:hover,
+.section-nav a:focus-visible{
+    border-color:var(--forge-orange);
+    background:var(--forge-orange);
+    scale:1.35;
 }
 
 .features{
-    padding:120px 10%;
+    padding:110px 8% 40px;
+    background:
+        linear-gradient(to bottom,var(--forge-bg),transparent 34%),
+        linear-gradient(135deg,rgba(43,48,56,.18),transparent 42%),
+        var(--forge-bg);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    position:relative;
+    isolation:isolate;
+    overflow:hidden;
 }
 
-.features h2{
-    text-align:center;
-    font-size:42px;
-    margin-bottom:60px;
+.features::before{
+    content:"";
+    position:absolute;
+    z-index:-1;
+    inset:0 0 auto;
+    height:38%;
+    background-image:
+        linear-gradient(var(--telemetry-grid-color) 1px,transparent 1px),
+        linear-gradient(90deg,var(--telemetry-grid-color) 1px,transparent 1px);
+    background-size:var(--telemetry-grid-size) var(--telemetry-grid-size);
+    background-position:
+        0 calc(var(--telemetry-grid-origin) - 100svh),
+        0 0;
+    mask-image:linear-gradient(to bottom,rgba(0,0,0,.72),transparent);
+}
+
+.section-heading{
+    width:min(1180px,100%);
+    margin:0 auto 28px;
+    display:block;
+}
+
+.section-kicker,
+.card-label,
+.stack-label{
+    color:var(--forge-orange);
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+}
+
+.section-heading h2{
+    margin-top:12px;
+    font-size:clamp(40px,5vw,54px);
+    line-height:1;
+    letter-spacing:-.035em;
+}
+
+.section-heading p{
+    color:var(--forge-muted);
+    line-height:1.75;
 }
 
 .grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-    gap:30px;
+    grid-template-columns:repeat(12,1fr);
+    gap:10px 18px;
+    width:min(1180px,100%);
+    margin:auto;
+    counter-reset:capability;
 }
 
 .card{
-    background:#11161b;
-    padding:40px;
-    border:1px solid #1e2a20;
-    border-radius:10px;
+    counter-increment:capability;
+    background:var(--forge-surface-deep);
+    padding:28px;
+    border:1px solid var(--forge-line);
+    border-radius:6px;
     transition:.3s;
+    min-height:210px;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    position:relative;
+    overflow:hidden;
+}
+
+.card:nth-child(1){grid-column:span 5}
+.card:nth-child(2){grid-column:span 7}
+.card:nth-child(2){padding-bottom:55px}
+.card:nth-child(3){
+    grid-column:3 / span 8;
+    min-height:140px;
+    padding-block:18px;
+}
+
+.card::before{
+    content:"0" counter(capability);
+    position:absolute;
+    right:28px;
+    top:22px;
+    color:rgba(247,248,250,.08);
+    font-size:72px;
+    font-weight:700;
+    letter-spacing:-.08em;
+}
+
+.card::after{
+    content:"";
+    position:absolute;
+    left:0;
+    top:0;
+    width:4px;
+    height:54px;
+    background:var(--forge-orange);
 }
 
 .card:hover{
-    border-color:#2ec84d;
+    border-color:var(--forge-orange);
     transform:translateY(-6px);
 }
 
 .card h3{
-    color:#2ec84d;
+    color:var(--forge-orange);
+    font-size:24px;
     margin-bottom:15px;
 }
 
+.card-label{
+    margin-bottom:auto;
+}
+
 .card p{
-    color:#bdbdbd;
+    color:var(--forge-muted);
     line-height:1.7;
 }
 
 .about{
-    padding:120px 10%;
+    padding:0;
+    display:flex;
+    flex-direction:column;
+    background:linear-gradient(180deg,var(--forge-bg),#15181c);
+}
+
+.engineering-layout{
+    flex:1;
+    padding:110px 10% 38px;
     display:grid;
     grid-template-columns:1fr 1fr;
     gap:80px;
@@ -174,34 +533,250 @@ nav a:hover{
 }
 
 .about p{
-    color:#b7b7b7;
+    color:var(--forge-muted);
     line-height:1.8;
 }
 
 .mockup{
-    height:350px;
-    border-radius:12px;
+    min-height:390px;
+    border-radius:6px;
     background:
-    linear-gradient(135deg,#1f3b25,#101315);
-    display:flex;
-    justify-content:center;
+    linear-gradient(135deg,var(--forge-surface),var(--forge-surface-deep));
+    display:grid;
+    align-content:center;
+    gap:12px;
+    padding:34px;
+    border:1px solid var(--forge-line);
+    position:relative;
+    overflow:hidden;
+}
+
+.mockup::before{
+    content:"SYSTEM / INTEGRATION";
+    position:absolute;
+    left:28px;
+    top:24px;
+    color:var(--forge-orange);
+    font-size:10px;
+    font-weight:600;
+    letter-spacing:.18em;
+    z-index:2;
+}
+
+.mockup-grid{
+    position:absolute;
+    z-index:0;
+    inset:0;
+    pointer-events:none;
+    overflow:hidden;
+    mask-image:linear-gradient(
+        90deg,
+        rgba(0,0,0,.72),
+        black 18%,
+        black
+    );
+}
+
+.mockup-grid-line{
+    position:absolute;
+    display:block;
+    opacity:0;
+    background:rgba(255,138,31,.12);
+    box-shadow:0 0 7px rgba(255,138,31,.16);
+}
+
+.mockup-grid-line.is-horizontal{
+    left:0;
+    width:100%;
+    height:1px;
+    transform:scaleX(0);
+    transform-origin:left center;
+}
+
+.mockup-grid-line.is-vertical{
+    top:0;
+    width:1px;
+    height:100%;
+    transform:scaleY(0);
+    transform-origin:center top;
+}
+
+.mockup.is-revealed .mockup-grid-line.is-horizontal{
+    animation:horizontal-grid-line-in .4s ease-out var(--line-delay) forwards;
+}
+
+.mockup.is-revealed .mockup-grid-line.is-vertical{
+    animation:vertical-grid-line-in .44s ease-out var(--line-delay) forwards;
+}
+
+@keyframes horizontal-grid-line-in{
+    to{
+        opacity:1;
+        transform:scaleX(1);
+    }
+}
+
+@keyframes vertical-grid-line-in{
+    to{
+        opacity:1;
+        transform:scaleY(1);
+    }
+}
+
+.mockup > .stack-label,
+.mockup > .system-row{
+    position:relative;
+}
+
+.mockup > .mockup-grid{z-index:0}
+.mockup > .stack-label,
+.mockup > .system-row{z-index:1}
+
+.system-row{
+    display:grid;
+    grid-template-columns:38px 1fr auto;
+    gap:16px;
     align-items:center;
-    font-size:140px;
-    color:#2ec84d;
-    font-weight:bold;
+    padding:18px;
+    background:rgba(18,20,23,.58);
+    border:1px solid var(--forge-line);
+    color:inherit;
+    text-decoration:none;
+    transition:border-color .2s,background .2s,transform .2s;
+    overflow:hidden;
+    isolation:isolate;
+}
+
+.system-row::after{
+    content:"";
+    position:absolute;
+    z-index:0;
+    left:0;
+    top:0;
+    width:42%;
+    height:100%;
+    pointer-events:none;
+    opacity:0;
+    transform:translateX(260%) skewX(-18deg);
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,138,31,.2) 48%,
+        rgba(255,138,31,.08)
+    );
+}
+
+.system-row > *{
+    position:relative;
+    z-index:1;
+}
+
+.mockup.is-revealed .system-row::after{
+    animation:
+        system-row-sweep 1.24s cubic-bezier(.22,.72,.2,1)
+        var(--sweep-delay)
+        forwards;
+}
+
+@keyframes system-row-sweep{
+    0%{
+        opacity:0;
+        transform:translateX(-260%) skewX(-18deg);
+    }
+    16%{
+        opacity:1;
+    }
+    78%{
+        opacity:.75;
+    }
+    100%{
+        opacity:0;
+        transform:translateX(260%) skewX(-18deg);
+    }
+}
+
+.system-row:hover,
+.system-row:focus-visible{
+    border-color:var(--forge-orange);
+    background:rgba(255,138,31,.08);
+    transform:translateX(4px);
+    outline:none;
+}
+
+.system-index{
+    color:var(--forge-muted);
+    font-size:11px;
+    letter-spacing:.14em;
+}
+
+.system-row strong{
+    font-size:15px;
+    letter-spacing:.04em;
+}
+
+.status-light{
+    width:8px;
+    height:8px;
+    background:var(--forge-orange);
+    border-radius:50%;
+    box-shadow:0 0 14px rgba(255,138,31,.7);
 }
 
 footer{
-    padding:60px;
+    padding:50px 60px;
     text-align:center;
-    color:#777;
-    border-top:1px solid #1b1b1b;
+    color:var(--forge-muted);
+    border-top:1px solid var(--forge-line);
+}
+
+@media(min-width:901px){
+html{
+scroll-snap-type:y mandatory;
+}
+
+html.is-wheel-snapping{
+scroll-behavior:auto;
+scroll-snap-type:none;
+}
+
+.snap-section{
+min-height:100svh;
+scroll-snap-align:start;
+scroll-snap-stop:always;
+}
 }
 
 @media(max-width:900px){
 
-.about{
+.engineering-layout{
 grid-template-columns:1fr;
+}
+
+.section-heading{
+grid-template-columns:1fr;
+gap:22px;
+}
+
+.grid{
+grid-template-columns:1fr;
+}
+
+.card:nth-child(n){
+grid-column:auto;
+min-height:240px;
+}
+
+.card:nth-child(2){
+padding-bottom:28px;
+}
+
+.hero{
+grid-template-columns:1fr;
+padding-top:140px;
+}
+
+.hero-visual{
+min-height:420px;
 }
 
 .hero h1{
@@ -212,6 +787,23 @@ nav ul{
 display:none;
 }
 
+.section-nav{
+display:none;
+}
+
+}
+
+@media(prefers-reduced-motion:reduce){
+.mockup-grid-line{
+animation:none!important;
+opacity:1;
+transform:none;
+}
+
+.system-row::after{
+animation:none!important;
+display:none;
+}
 }
 </style>
 
@@ -228,8 +820,6 @@ DX<span>Controls</span>
 
 <li><a href="/index.html">Home</a></li>
 <li><a href="/main/about.html">About</a></li>
-<li><a href="/main/technology.html">Technology</a></li>
-<li><a href="/main/applications.html">Applications</a></li>
 <li><a href="/main/products.html">Products</a></li>
 <li><a href="/main/contact.html">Contact</a></li>
 
@@ -237,9 +827,17 @@ DX<span>Controls</span>
 
 </nav>
 
-<section class="hero">
+<aside class="section-nav" aria-label="Homepage sections">
+<a href="#overview" aria-label="Overview"></a>
+<a href="#capabilities" aria-label="Capabilities"></a>
+<a href="#engineering" aria-label="Engineering"></a>
+</aside>
 
-<div>
+<section class="hero snap-section" id="overview" data-snap-panel>
+
+<div class="hero-copy">
+
+<div class="eyebrow">Autonomous systems / control</div>
 
 <h1>
 Embedded Systems.<br>
@@ -247,8 +845,7 @@ Embedded Systems.<br>
 </h1>
 
 <p>
-Detroit-based DXC designs advanced embedded electronics focused on autonomous robotic platforms with a particular focus on miniature
-UAVs integrated with intelligent control systems and AI.
+Detroit-based DXC engineers embedded electronics and autonomous robotic platforms, specializing in miniature UAVs, onboard intelligence, and advanced control systems.
 </p>
 
 <div class="buttons">
@@ -265,32 +862,58 @@ Learn More
 
 </div>
 
+<div class="hero-visual" role="img" aria-label="Top-down miniature unmanned aircraft with telemetry display">
+<div class="orbit orbit-one" aria-hidden="true"></div>
+<div class="orbit orbit-two" aria-hidden="true"></div>
+<div class="drone" aria-hidden="true">
+<span class="drone-arm arm-a"></span>
+<span class="drone-arm arm-b"></span>
+<span class="rotor rotor-a"></span>
+<span class="rotor rotor-b"></span>
+<span class="rotor rotor-c"></span>
+<span class="rotor rotor-d"></span>
+<span class="drone-body"></span>
+</div>
+<div class="readout readout-a" aria-label="Altitude 314.1 meters">ALTITUDE<strong class="telemetry-value" data-telemetry="altitude">314.1 M</strong></div>
+<div class="readout readout-b" aria-label="Link status 100 percent">LINK STATUS<strong class="telemetry-value" data-telemetry="link">100%</strong></div>
+<div class="readout readout-c" aria-label="Vector 45.0 degrees">VECTOR<strong class="telemetry-value" data-telemetry="vector">45.0 DEG</strong></div>
+<div class="visual-label" aria-label="DXC Flight System 01">DXC / Flight System 01</div>
+</div>
+
 </section>
 
-<section class="features">
+<section class="features snap-section" id="capabilities" data-snap-panel>
 
-<h2>Building the Future</h2>
+<div class="section-heading">
+<div>
+<span class="section-kicker">Core capabilities</span>
+<h2>From Embedded Control to Autonomy</h2>
+</div>
+</div>
 
 <div class="grid">
 
 <div class="card">
+<span class="card-label">Hardware / Firmware</span>
 <h3>Embedded Electronics</h3>
 <p>
-Custom control hardware, power electronics, sensor integration, and real-time firmware lies underneath our high-performance robotic systems.
+Custom control hardware, power electronics, sensor integration, and real-time firmware form the foundation of each robotic platform.
 </p>
 </div>
 
 <div class="card">
+<span class="card-label">Perception / Navigation</span>
 <h3>Autonomous Robotics</h3>
 <p>
-Our small-scale aerial systems leverage AI, state-of-the-art sensors, and complex navigation systems to reduce operator error.
+Our aerial systems combine onboard perception, state estimation, and navigation to operate with less continuous input from the pilot.
 </p>
 </div>
 
 <div class="card">
+<span class="card-label">Control / Communications</span>
 <h3>Mission Software</h3>
 <p>
-Reliable software architectures, secure communications, and intelligent control systems enable high-scale deployment.
+Secure communications and mission-control software coordinate individual vehicles and multi-platform operations.
 </p>
 </div>
 
@@ -298,31 +921,228 @@ Reliable software architectures, secure communications, and intelligent control 
 
 </section>
 
-<section class="about">
+<section class="about snap-section" id="engineering" data-snap-panel>
+
+<div class="engineering-layout">
 
 <div>
 
 <h2>
-Engineering Without Compromise
+One System, Engineered End to End
 </h2>
 
 <p>
-At DXC, we create integrated robotic systems with hardware, firmware, and software built from the ground up. We deliver reliability, precision, and rapid innovation—from embedded controllers to fully autonomous robotic platforms.
+DXC develops hardware, firmware, and autonomy as one coordinated system. Designing every layer together reduces integration risk and keeps each platform aligned with its mission.
 </p>
 
 </div>
 
 <div class="mockup">
-DXC
+<div class="mockup-grid" aria-hidden="true"></div>
+<span class="stack-label">Unified architecture</span>
+<a class="system-row" href="/main/about.html#embedded-systems">
+<span class="system-index">01</span>
+<strong>Embedded Hardware</strong>
+<span class="status-light" aria-label="Online"></span>
+</a>
+<a class="system-row" href="/main/about.html#autonomous-robotics">
+<span class="system-index">02</span>
+<strong>Autonomous Intelligence</strong>
+<span class="status-light" aria-label="Online"></span>
+</a>
+<a class="system-row" href="/main/about.html#mission-software">
+<span class="system-index">03</span>
+<strong>Real-time Control</strong>
+<span class="status-light" aria-label="Online"></span>
+</a>
 </div>
 
-</section>
+</div>
 
 <footer>
 
-© 2026 DXControls • Advanced Robotics & Embedded Systems
+© 2026 DXControls
 
 </footer>
+
+</section>
+
+<script>
+// Briefly calibrate the hero telemetry, then settle on the intended readouts.
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+if (!reducedMotion) {
+  const telemetry = [
+    {
+      element: document.querySelector('[data-telemetry="altitude"]'),
+      startValue: 184,
+      targetValue: 314.1,
+      wobble: 38,
+      formatValue: (value, complete) => complete ? '314.1 M' : `${value.toFixed(1)} M`,
+      finalValue: '314.1 M',
+      duration: 1750,
+      delay: 120
+    },
+    {
+      element: document.querySelector('[data-telemetry="link"]'),
+      startValue: 93.4,
+      targetValue: 100,
+      wobble: 1.7,
+      formatValue: (value, complete) => complete ? '100%' : `${value.toFixed(1)}%`,
+      finalValue: '100%',
+      duration: 1900,
+      delay: 210
+    },
+    {
+      element: document.querySelector('[data-telemetry="vector"]'),
+      startValue: 78,
+      targetValue: 45,
+      wobble: 15,
+      formatValue: (value, complete) => complete ? '45.0 DEG' : `${value.toFixed(1)} DEG`,
+      finalValue: '45.0 DEG',
+      duration: 1825,
+      delay: 300
+    }
+  ];
+
+  telemetry.forEach(({
+    element,
+    startValue,
+    targetValue,
+    wobble,
+    formatValue,
+    finalValue,
+    duration,
+    delay
+  }) => {
+    window.setTimeout(() => {
+      const startedAt = performance.now();
+      element.classList.add('is-calibrating');
+
+      const update = (now) => {
+        const progress = Math.min((now - startedAt) / duration, 1);
+        const easedProgress = 1 - Math.pow(1 - progress, 3);
+        const settlingWave =
+          Math.sin(progress * Math.PI * 7) * wobble * Math.pow(1 - progress, 1.7);
+        const interpolated =
+          startValue + (targetValue - startValue) * easedProgress + settlingWave;
+        element.textContent = formatValue(interpolated, progress === 1);
+
+        if (progress < 1) {
+          window.requestAnimationFrame(update);
+        } else {
+          element.textContent = finalValue;
+          element.classList.remove('is-calibrating');
+        }
+      };
+
+      window.requestAnimationFrame(update);
+    }, delay);
+  });
+
+  const systemLabel = document.querySelector('.visual-label');
+  const finalLabel = systemLabel.textContent.toUpperCase();
+  const cipherGlyphs = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/+-';
+  const labelStartedAt = performance.now();
+  const labelDuration = 1750;
+  systemLabel.classList.add('is-decoding');
+
+  const decodeLabel = (now) => {
+    const progress = Math.min((now - labelStartedAt) / labelDuration, 1);
+    const revealedCharacters = Math.floor(progress * finalLabel.length);
+
+    systemLabel.textContent = [...finalLabel].map((character, index) => {
+      if (character === ' ') return ' ';
+      if (index < revealedCharacters || progress === 1) return character;
+      return cipherGlyphs[Math.floor(Math.random() * cipherGlyphs.length)];
+    }).join('');
+
+    if (progress < 1) {
+      window.requestAnimationFrame(decodeLabel);
+    } else {
+      systemLabel.textContent = finalLabel;
+      systemLabel.classList.remove('is-decoding');
+    }
+  };
+
+  window.requestAnimationFrame(decodeLabel);
+}
+
+const engineeringMockup = document.querySelector('#engineering .mockup');
+
+if (engineeringMockup) {
+  const gridLayer = engineeringMockup.querySelector('.mockup-grid');
+  const systemRows = [...engineeringMockup.querySelectorAll('.system-row')];
+  const horizontalSpacing = 22;
+  const verticalSpacing = 22;
+  const lineStagger = .07;
+  const entranceDelay = .5;
+  const horizontalCount = Math.ceil(
+    engineeringMockup.offsetHeight / horizontalSpacing
+  ) + 1;
+  const verticalCount = Math.ceil(
+    engineeringMockup.offsetWidth / verticalSpacing
+  ) + 1;
+  const verticalStart =
+    entranceDelay + horizontalCount * lineStagger + .32;
+
+  const addGridLine = (orientation, index, count, delay) => {
+    const line = document.createElement('span');
+    line.className = `mockup-grid-line is-${orientation}`;
+    line.style.setProperty(
+      orientation === 'horizontal' ? 'top' : 'left',
+      `${index / (count - 1) * 100}%`
+    );
+    line.style.setProperty('--line-delay', `${delay}s`);
+    gridLayer.appendChild(line);
+  };
+
+  for (let index = 0; index < horizontalCount; index += 1) {
+    addGridLine(
+      'horizontal',
+      index,
+      horizontalCount,
+      entranceDelay + index * lineStagger
+    );
+  }
+
+  for (let index = 0; index < verticalCount; index += 1) {
+    addGridLine(
+      'vertical',
+      index,
+      verticalCount,
+      verticalStart + index * lineStagger
+    );
+  }
+
+  systemRows.forEach((row) => {
+    const rowCenter = row.offsetTop + row.offsetHeight / 2;
+    const matchingLine = Math.round(
+      rowCenter / engineeringMockup.offsetHeight * (horizontalCount - 1)
+    );
+    row.style.setProperty(
+      '--sweep-delay',
+      `${entranceDelay + matchingLine * lineStagger}s`
+    );
+  });
+
+  if (reducedMotion || !('IntersectionObserver' in window)) {
+    engineeringMockup.classList.add('is-revealed');
+  } else {
+    const mockupObserver = new IntersectionObserver((entries, observer) => {
+      const visibleEntry = entries.find((entry) => entry.isIntersecting);
+      if (!visibleEntry) return;
+
+      engineeringMockup.classList.add('is-revealed');
+      observer.unobserve(engineeringMockup);
+    }, { threshold: .42 });
+
+    mockupObserver.observe(engineeringMockup);
+  }
+}
+
+</script>
+<script src="/snap-scroll.js"></script>
 
 </body>
 </html>

@@ -56,11 +56,22 @@ nav a:hover{
 color:#2ec84d;
 }
 
+.contact-shell{
+min-height:calc(100svh - 82px);
+display:grid;
+grid-template-columns:minmax(280px,.72fr) minmax(420px,1fr);
+gap:clamp(54px,8vw,120px);
+align-items:center;
+padding:42px 8%;
+}
+
 .hero{
+padding:0;
+text-align:left;
+}
 
-padding:120px 10% 60px;
-text-align:center;
-
+.contact-shell .hero{
+background:transparent;
 }
 
 .hero h1{
@@ -74,18 +85,17 @@ font-size:20px;
 }
 
 .container{
-
-max-width:700px;
-margin:auto;
-padding:60px 10%;
-
+width:100%;
+max-width:660px;
+margin:0;
+padding:0;
 }
 
 form{
 
 display:flex;
 flex-direction:column;
-gap:20px;
+gap:14px;
 
 }
 
@@ -94,7 +104,7 @@ textarea{
 
 background:#14191d;
 border:1px solid #2b2b2b;
-padding:18px;
+padding:14px 16px;
 color:white;
 font-size:16px;
 border-radius:6px;
@@ -111,7 +121,7 @@ border-color:#2ec84d;
 
 textarea{
 
-height:180px;
+height:132px;
 resize:vertical;
 
 }
@@ -120,7 +130,7 @@ button{
 
 background:#2ec84d;
 color:black;
-padding:18px;
+padding:15px;
 border:none;
 border-radius:6px;
 font-weight:600;
@@ -137,25 +147,43 @@ background:#3cdf5d;
 }
 
 .info{
-
-margin-top:60px;
-text-align:center;
+margin-top:34px;
+text-align:left;
 line-height:2;
 color:#aaa;
-
 }
 
-footer{
+.security-note{
+color:#A8AFBA;
+font-size:12px;
+line-height:1.55;
+}
 
-margin-top:80px;
-padding:40px;
+@media(max-width:800px){
+.contact-shell{
+min-height:auto;
+grid-template-columns:1fr;
+gap:44px;
+padding:74px 8%;
+}
+
+.hero,
+.info{
 text-align:center;
-border-top:1px solid #222;
-color:#777;
+}
 
+.hero h1{
+font-size:48px;
+}
+
+.container{
+max-width:620px;
+margin:auto;
+}
 }
 
 </style>
+<link rel="stylesheet" href="../forge-signal.css">
 
 </head>
 
@@ -171,8 +199,6 @@ DX<span>Controls</span>
 
 <li><a href="/index.html">Home</a></li>
 <li><a href="/main/about.html">About</a></li>
-<li><a href="/main/technology.html">Technology</a></li>
-<li><a href="/main/applications.html">Applications</a></li>
 <li><a href="/main/products.html">Products</a></li>
 <li><a href="/main/contact.html">Contact</a></li>
 
@@ -180,32 +206,50 @@ DX<span>Controls</span>
 
 </nav>
 
+<main class="contact-shell">
+
 <section class="hero">
 
 <h1>Contact</h1>
 
 <p>
-For product and business inquiries, please expect a response within 1-2 business days.
+Expect business responses within two business days.
 </p>
+
+<div class="info">
+
+<h2 style="color:#FF8A1F;margin-bottom:15px;">DXControls</h2>
+
+<p>Advanced Robotics & Embedded Systems</p>
+
+<p>cowdench@umich.edu</p>
+
+</div>
 
 </section>
 
 <div class="container">
-<form id="contactForm" action="https://formsubmit.co/cowdench@gmail.com" method="POST">
-  
-  <!-- FormSubmit configuration -->
-  <!-- Send a copy to a second email (optional, delete if not needed) -->
-  <input type="hidden" name="_cc" value="cirgang@umich.edu">
-  <!-- Disable the visual captcha for a smoother inline experience --> 
-  <!--input type="hidden" name="_captcha" value="false"-->
+<!--
+  EMAIL RECIPIENTS — UPDATE THESE TWO LINES WHEN THE COMPANY EMAILS CHANGE:
+  1. Primary recipient: change the address at the end of the form action URL.
+  2. Copy recipient: change the value of the _cc input immediately below.
+  FormSubmit sends a one-time activation email to a new primary recipient before
+  it begins forwarding website messages.
+-->
+<form id="contactForm" action="https://formsubmit.co/ajax/cowdench@umich.edu" method="POST">
+  <!-- COPY RECIPIENT — UPDATE THIS ADDRESS WHEN THE COMPANY EMAIL CHANGES. -->
+  <input type="hidden" name="_cc" value="cowdench@gmail.com">
+  <input type="hidden" name="_subject" value="New DXControls website inquiry">
+  <input type="hidden" name="_template" value="table">
+  <input type="text" name="_honey" tabindex="-1" autocomplete="off" style="display:none">
 
-  <!-- Inputs ('name' for the email, 'id' for the JS) -->
-  <input type="text" id="name" name="Name" placeholder="Your Name" required>
-  <input type="email" id="email" name="Email" placeholder="Email Address" required>
-  <input type="text" id="organization" name="Organization" placeholder="Organization" required>
-  <textarea id="message" name="Message" placeholder="Message" required></textarea>
+  <input type="text" id="name" name="name" placeholder="Your Name" autocomplete="name" maxlength="100" required>
+  <input type="email" id="email" name="email" placeholder="Email Address" autocomplete="email" maxlength="254" required>
+  <input type="text" id="organization" name="organization" placeholder="Organization" autocomplete="organization" maxlength="120" required>
+  <textarea id="message" name="message" placeholder="Message" maxlength="3000" required></textarea>
 
   <button id="submitBtn" type="submit">Send Message</button>
+  <p class="security-note">For your security, do not include passwords or sensitive, controlled, or proprietary technical data.</p>
   
   <!-- Where the Success/Oops message will appear -->
   <div id="formStatus" style="text-align: center; font-weight: 500; margin-top: 10px;"></div>
@@ -213,38 +257,38 @@ For product and business inquiries, please expect a response within 1-2 business
 
 <script>
 document.getElementById('contactForm').addEventListener('submit', async function(e) {
-  e.preventDefault(); // Stops the page from redirecting
+  e.preventDefault();
   
   const form = e.target;
   const submitBtn = document.getElementById('submitBtn');
   const statusDiv = document.getElementById('formStatus');
   
-  // Update UI while sending
   submitBtn.disabled = true;
   submitBtn.textContent = 'Sending...';
-  statusDiv.textContent = ''; 
+  statusDiv.textContent = '';
+  statusDiv.setAttribute('role', 'status');
 
   try {
-    // Send data to FormSubmit in the background
+    // FormSubmit's /ajax/ endpoint is required for a background fetch.
     const response = await fetch(form.action, {
       method: form.method,
       body: new FormData(form),
-      headers: {
-        // This tells FormSubmit to reply quietly instead of redirecting the page
-        'Accept': 'application/json' 
-      }
+      headers: { 'Accept': 'application/json' }
     });
-    
-    if (response.ok) {
-      statusDiv.style.color = '#2ec84d'; 
-      statusDiv.textContent = 'Message Sent ✓';
-      form.reset(); // Clear the fields
+
+    const result = await response.json();
+
+    if (response.ok && result.success !== false) {
+      statusDiv.style.color = '#FF8A1F';
+      statusDiv.textContent = 'Message sent. Thank you!';
+      form.reset();
     } else {
-      throw new Error('Failed to send');
+      throw new Error(result.message || 'FormSubmit rejected the message.');
     }
   } catch (error) {
-    statusDiv.style.color = '#ff4a4a'; 
-    statusDiv.textContent = 'Oops! There was a problem sending your message.';
+    console.error('Contact form submission failed:', error);
+    statusDiv.style.color = '#ff6b6b';
+    statusDiv.textContent = 'We could not send your message. Please try again in a moment.';
   } finally {
     submitBtn.disabled = false;
     submitBtn.textContent = 'Send Message';
@@ -252,17 +296,9 @@ document.getElementById('contactForm').addEventListener('submit', async function
 });
 </script>
 
-<div class="info">
-
-<h2 style="color:#2ec84d;margin-bottom:15px;">DXControls</h2>
-
-<p>Advanced Robotics & Embedded Systems</p>
-
-<p>contact@dxcontrols.com</p>
-
 </div>
 
-</div>
+</main>
 
 <footer>
 
