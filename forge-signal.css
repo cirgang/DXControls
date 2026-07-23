@@ -1,0 +1,130 @@
+:root {
+  --forge-bg: #121417;
+  --forge-surface: #2b3038;
+  --forge-surface-deep: #1b1f24;
+  --forge-orange: #ff8a1f;
+  --forge-orange-hover: #ffa24d;
+  --forge-muted: #a8afba;
+  --forge-white: #f7f8fa;
+  --forge-line: rgba(168, 175, 186, 0.18);
+}
+
+body {
+  background: var(--forge-bg);
+  color: var(--forge-white);
+  overflow-x: hidden;
+}
+
+nav {
+  background: rgba(18, 20, 23, 0.9);
+  border-bottom: 1px solid var(--forge-line);
+  backdrop-filter: blur(12px);
+  align-items: center;
+  z-index: 100;
+}
+
+.logo {
+  flex: 0 0 auto;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.logo span,
+nav a:hover,
+.section h2,
+.card h3,
+.content h2,
+.text h2 {
+  color: var(--forge-orange);
+}
+
+nav a {
+  color: var(--forge-white);
+}
+
+.hero {
+  background:
+    radial-gradient(circle at 50% 0, rgba(255, 138, 31, 0.11), transparent 42%),
+    var(--forge-bg);
+}
+
+.hero p,
+.section p,
+.content p,
+.text p,
+.info p {
+  color: var(--forge-muted);
+}
+
+.card,
+.image,
+.placeholder,
+input,
+textarea {
+  background: var(--forge-surface-deep);
+  border-color: var(--forge-line);
+  color: var(--forge-muted);
+  border-radius: 6px;
+}
+
+.card {
+  box-shadow: 0 24px 55px rgba(0, 0, 0, 0.15);
+}
+
+.image,
+.placeholder {
+  border-color: var(--forge-orange);
+}
+
+.tech:nth-child(even) {
+  background: var(--forge-surface-deep);
+}
+
+.status,
+.button,
+button {
+  background: var(--forge-orange);
+  color: var(--forge-bg);
+}
+
+.button:hover,
+button:hover {
+  background: var(--forge-orange-hover);
+}
+
+input:focus,
+textarea:focus {
+  border-color: var(--forge-orange);
+}
+
+td {
+  border-color: var(--forge-line);
+}
+
+td:first-child,
+.info {
+  color: var(--forge-muted);
+}
+
+footer {
+  padding: 50px 60px;
+  text-align: center;
+  color: var(--forge-muted);
+  border-top: 1px solid var(--forge-line);
+}
+
+@media (min-width: 901px) {
+  html.is-wheel-snapping {
+    scroll-behavior: auto;
+    scroll-snap-type: none;
+  }
+}
+
+@media (max-width: 900px) {
+  nav ul {
+    display: none;
+  }
+}
