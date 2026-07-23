@@ -84,12 +84,12 @@ nav a:hover{
 .hero{
     min-height:100vh;
     display:grid;
-    grid-template-columns:minmax(0,1.08fr) minmax(360px,.92fr);
+    grid-template-columns:minmax(360px,.92fr) minmax(0,1.08fr);
     gap:7vw;
     align-items:center;
     padding:110px 8% 30px;
     background:
-    radial-gradient(circle at 78% 34%,rgba(255,138,31,.12) 0%,transparent 34%),
+    radial-gradient(circle at 22% 34%,rgba(255,138,31,.12) 0%,transparent 34%),
     linear-gradient(135deg,#121417 0%,#16191d 55%,#121417 100%);
     position:relative;
     isolation:isolate;
@@ -105,7 +105,13 @@ nav a:hover{
         linear-gradient(var(--telemetry-grid-color) 1px,transparent 1px),
         linear-gradient(90deg,var(--telemetry-grid-color) 1px,transparent 1px);
     background-size:var(--telemetry-grid-size) var(--telemetry-grid-size);
-    mask-image:linear-gradient(90deg,rgba(0,0,0,.38),black 54%,rgba(0,0,0,.6));
+    mask-image:linear-gradient(
+        90deg,
+        black 8%,
+        black 42%,
+        rgba(0,0,0,.55) 72%,
+        rgba(0,0,0,.28)
+    );
 }
 
 .hero::after{
@@ -353,6 +359,11 @@ nav a:hover{
         0 0 24px rgba(255,138,31,.28);
 }
 
+.visual-label.is-pending{
+    color:transparent;
+    text-shadow:none;
+}
+
 .section-nav{
     position:fixed;
     z-index:90;
@@ -369,7 +380,11 @@ nav a:hover{
     border:1px solid var(--forge-muted);
     background:var(--forge-bg);
     rotate:45deg;
-    transition:.25s;
+    transition:
+        border-color .25s ease,
+        background-color .25s ease,
+        box-shadow .25s ease,
+        scale .25s ease;
 }
 
 .section-nav a:hover,
@@ -377,6 +392,26 @@ nav a:hover{
     border-color:var(--forge-orange);
     background:var(--forge-orange);
     scale:1.35;
+}
+
+.section-nav a.is-active{
+    border-color:var(--forge-orange);
+    background:var(--forge-orange);
+    box-shadow:0 0 12px rgba(255,138,31,.72);
+    scale:1.35;
+    animation:section-signal-in .42s ease-out;
+}
+
+@keyframes section-signal-in{
+    0%{
+        scale:.85;
+        box-shadow:0 0 0 rgba(255,138,31,0);
+    }
+    55%{scale:1.65;}
+    100%{
+        scale:1.35;
+        box-shadow:0 0 12px rgba(255,138,31,.72);
+    }
 }
 
 .features{
@@ -393,31 +428,86 @@ nav a:hover{
     overflow:hidden;
 }
 
-.features::before{
-    content:"";
+.features-grid{
     position:absolute;
-    z-index:-1;
-    inset:0 0 auto;
-    height:38%;
-    background-image:
-        linear-gradient(var(--telemetry-grid-color) 1px,transparent 1px),
-        linear-gradient(90deg,var(--telemetry-grid-color) 1px,transparent 1px);
-    background-size:var(--telemetry-grid-size) var(--telemetry-grid-size);
-    background-position:
-        0 calc(var(--telemetry-grid-origin) - 100svh),
-        0 0;
-    mask-image:linear-gradient(to bottom,rgba(0,0,0,.72),transparent);
+    z-index:0;
+    inset:0;
+    overflow:hidden;
+    pointer-events:none;
+    -webkit-mask-image:linear-gradient(
+        to bottom,
+        transparent 0,
+        rgba(0,0,0,.18) 10%,
+        rgba(0,0,0,.72) 30%,
+        rgba(0,0,0,.46) 68%,
+        transparent 100%
+    );
+    mask-image:linear-gradient(
+        to bottom,
+        transparent 0,
+        rgba(0,0,0,.18) 10%,
+        rgba(0,0,0,.72) 30%,
+        rgba(0,0,0,.46) 68%,
+        transparent 100%
+    );
+}
+
+.feature-grid-line{
+    position:absolute;
+    display:block;
+    opacity:0;
+    background:rgba(255,138,31,.14);
+    box-shadow:0 0 8px rgba(255,138,31,.2);
+}
+
+.feature-grid-line.is-horizontal{
+    left:0;
+    width:100%;
+    height:1px;
+    transform:scaleX(0);
+    transform-origin:left center;
+}
+
+.feature-grid-line.is-vertical{
+    top:0;
+    width:1px;
+    height:100%;
+    transform:scaleY(0);
+    transform-origin:center top;
+}
+
+.features.is-revealed .feature-grid-line.is-horizontal{
+    animation:feature-horizontal-line-in .65s ease-out var(--line-delay) forwards;
+}
+
+.features.is-revealed .feature-grid-line.is-vertical{
+    animation:feature-vertical-line-in .6s ease-out var(--line-delay) forwards;
+}
+
+@keyframes feature-horizontal-line-in{
+    to{
+        opacity:1;
+        transform:scaleX(1);
+    }
+}
+
+@keyframes feature-vertical-line-in{
+    to{
+        opacity:1;
+        transform:scaleY(1);
+    }
 }
 
 .section-heading{
     width:min(1180px,100%);
     margin:0 auto 28px;
     display:block;
+    position:relative;
+    z-index:1;
 }
 
 .section-kicker,
-.card-label,
-.stack-label{
+.card-label{
     color:var(--forge-orange);
     font-size:11px;
     font-weight:600;
@@ -432,9 +522,14 @@ nav a:hover{
     letter-spacing:-.035em;
 }
 
-.section-heading p{
-    color:var(--forge-muted);
-    line-height:1.75;
+.integration-message{
+    margin-top:16px;
+    color:var(--forge-orange);
+    font-size:13px;
+    font-weight:600;
+    letter-spacing:.16em;
+    line-height:1.4;
+    text-transform:uppercase;
 }
 
 .grid{
@@ -444,11 +539,16 @@ nav a:hover{
     width:min(1180px,100%);
     margin:auto;
     counter-reset:capability;
+    position:relative;
+    z-index:1;
 }
 
 .card{
     counter-increment:capability;
-    background:var(--forge-surface-deep);
+    background:
+        linear-gradient(var(--forge-orange),var(--forge-orange))
+        left top / 4px 54px no-repeat,
+        var(--forge-surface-deep);
     padding:28px;
     border:1px solid var(--forge-line);
     border-radius:6px;
@@ -459,6 +559,9 @@ nav a:hover{
     justify-content:flex-end;
     position:relative;
     overflow:hidden;
+    isolation:isolate;
+    color:inherit;
+    text-decoration:none;
 }
 
 .card:nth-child(1){grid-column:span 5}
@@ -479,21 +582,63 @@ nav a:hover{
     font-size:72px;
     font-weight:700;
     letter-spacing:-.08em;
+    z-index:1;
 }
 
 .card::after{
     content:"";
     position:absolute;
+    z-index:0;
     left:0;
     top:0;
-    width:4px;
-    height:54px;
-    background:var(--forge-orange);
+    width:30%;
+    height:100%;
+    pointer-events:none;
+    opacity:0;
+    transform:translateX(-360%) skewX(-18deg);
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,138,31,.18) 48%,
+        rgba(255,138,31,.05)
+    );
 }
 
-.card:hover{
+.card > *{
+    position:relative;
+    z-index:1;
+}
+
+.features.is-revealed .card::after{
+    animation:
+        capability-card-sweep 1.9s cubic-bezier(.22,.72,.2,1)
+        var(--sweep-delay)
+        forwards;
+}
+
+@keyframes capability-card-sweep{
+    0%{
+        opacity:0;
+        transform:translateX(-360%) skewX(-18deg);
+    }
+    16%{
+        opacity:1;
+    }
+    78%{
+        opacity:.72;
+    }
+    100%{
+        opacity:0;
+        transform:translateX(360%) skewX(-18deg);
+    }
+}
+
+.card:hover,
+.card:focus-visible{
     border-color:var(--forge-orange);
     transform:translateY(-6px);
+    outline:none;
+    box-shadow:0 18px 38px rgba(0,0,0,.2);
 }
 
 .card h3{
@@ -511,217 +656,6 @@ nav a:hover{
     line-height:1.7;
 }
 
-.about{
-    padding:0;
-    display:flex;
-    flex-direction:column;
-    background:linear-gradient(180deg,var(--forge-bg),#15181c);
-}
-
-.engineering-layout{
-    flex:1;
-    padding:110px 10% 38px;
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:80px;
-    align-items:center;
-}
-
-.about h2{
-    font-size:44px;
-    margin-bottom:20px;
-}
-
-.about p{
-    color:var(--forge-muted);
-    line-height:1.8;
-}
-
-.mockup{
-    min-height:390px;
-    border-radius:6px;
-    background:
-    linear-gradient(135deg,var(--forge-surface),var(--forge-surface-deep));
-    display:grid;
-    align-content:center;
-    gap:12px;
-    padding:34px;
-    border:1px solid var(--forge-line);
-    position:relative;
-    overflow:hidden;
-}
-
-.mockup::before{
-    content:"SYSTEM / INTEGRATION";
-    position:absolute;
-    left:28px;
-    top:24px;
-    color:var(--forge-orange);
-    font-size:10px;
-    font-weight:600;
-    letter-spacing:.18em;
-    z-index:2;
-}
-
-.mockup-grid{
-    position:absolute;
-    z-index:0;
-    inset:0;
-    pointer-events:none;
-    overflow:hidden;
-    mask-image:linear-gradient(
-        90deg,
-        rgba(0,0,0,.72),
-        black 18%,
-        black
-    );
-}
-
-.mockup-grid-line{
-    position:absolute;
-    display:block;
-    opacity:0;
-    background:rgba(255,138,31,.12);
-    box-shadow:0 0 7px rgba(255,138,31,.16);
-}
-
-.mockup-grid-line.is-horizontal{
-    left:0;
-    width:100%;
-    height:1px;
-    transform:scaleX(0);
-    transform-origin:left center;
-}
-
-.mockup-grid-line.is-vertical{
-    top:0;
-    width:1px;
-    height:100%;
-    transform:scaleY(0);
-    transform-origin:center top;
-}
-
-.mockup.is-revealed .mockup-grid-line.is-horizontal{
-    animation:horizontal-grid-line-in .4s ease-out var(--line-delay) forwards;
-}
-
-.mockup.is-revealed .mockup-grid-line.is-vertical{
-    animation:vertical-grid-line-in .44s ease-out var(--line-delay) forwards;
-}
-
-@keyframes horizontal-grid-line-in{
-    to{
-        opacity:1;
-        transform:scaleX(1);
-    }
-}
-
-@keyframes vertical-grid-line-in{
-    to{
-        opacity:1;
-        transform:scaleY(1);
-    }
-}
-
-.mockup > .stack-label,
-.mockup > .system-row{
-    position:relative;
-}
-
-.mockup > .mockup-grid{z-index:0}
-.mockup > .stack-label,
-.mockup > .system-row{z-index:1}
-
-.system-row{
-    display:grid;
-    grid-template-columns:38px 1fr auto;
-    gap:16px;
-    align-items:center;
-    padding:18px;
-    background:rgba(18,20,23,.58);
-    border:1px solid var(--forge-line);
-    color:inherit;
-    text-decoration:none;
-    transition:border-color .2s,background .2s,transform .2s;
-    overflow:hidden;
-    isolation:isolate;
-}
-
-.system-row::after{
-    content:"";
-    position:absolute;
-    z-index:0;
-    left:0;
-    top:0;
-    width:42%;
-    height:100%;
-    pointer-events:none;
-    opacity:0;
-    transform:translateX(260%) skewX(-18deg);
-    background:linear-gradient(
-        90deg,
-        transparent,
-        rgba(255,138,31,.2) 48%,
-        rgba(255,138,31,.08)
-    );
-}
-
-.system-row > *{
-    position:relative;
-    z-index:1;
-}
-
-.mockup.is-revealed .system-row::after{
-    animation:
-        system-row-sweep 1.24s cubic-bezier(.22,.72,.2,1)
-        var(--sweep-delay)
-        forwards;
-}
-
-@keyframes system-row-sweep{
-    0%{
-        opacity:0;
-        transform:translateX(-260%) skewX(-18deg);
-    }
-    16%{
-        opacity:1;
-    }
-    78%{
-        opacity:.75;
-    }
-    100%{
-        opacity:0;
-        transform:translateX(260%) skewX(-18deg);
-    }
-}
-
-.system-row:hover,
-.system-row:focus-visible{
-    border-color:var(--forge-orange);
-    background:rgba(255,138,31,.08);
-    transform:translateX(4px);
-    outline:none;
-}
-
-.system-index{
-    color:var(--forge-muted);
-    font-size:11px;
-    letter-spacing:.14em;
-}
-
-.system-row strong{
-    font-size:15px;
-    letter-spacing:.04em;
-}
-
-.status-light{
-    width:8px;
-    height:8px;
-    background:var(--forge-orange);
-    border-radius:50%;
-    box-shadow:0 0 14px rgba(255,138,31,.7);
-}
-
 footer{
     padding:50px 60px;
     text-align:center;
@@ -732,6 +666,16 @@ footer{
 @media(min-width:901px){
 html{
 scroll-snap-type:y mandatory;
+}
+
+.hero-copy{
+grid-column:2;
+grid-row:1;
+}
+
+.hero-visual{
+grid-column:1;
+grid-row:1;
 }
 
 html.is-wheel-snapping{
@@ -747,10 +691,6 @@ scroll-snap-stop:always;
 }
 
 @media(max-width:900px){
-
-.engineering-layout{
-grid-template-columns:1fr;
-}
 
 .section-heading{
 grid-template-columns:1fr;
@@ -794,13 +734,17 @@ display:none;
 }
 
 @media(prefers-reduced-motion:reduce){
-.mockup-grid-line{
+.section-nav a.is-active{
+animation:none;
+}
+
+.feature-grid-line{
 animation:none!important;
 opacity:1;
 transform:none;
 }
 
-.system-row::after{
+.card::after{
 animation:none!important;
 display:none;
 }
@@ -830,7 +774,6 @@ DX<span>Controls</span>
 <aside class="section-nav" aria-label="Homepage sections">
 <a href="#overview" aria-label="Overview"></a>
 <a href="#capabilities" aria-label="Capabilities"></a>
-<a href="#engineering" aria-label="Engineering"></a>
 </aside>
 
 <section class="hero snap-section" id="overview" data-snap-panel>
@@ -877,95 +820,58 @@ Learn More
 <div class="readout readout-a" aria-label="Altitude 314.1 meters">ALTITUDE<strong class="telemetry-value" data-telemetry="altitude">314.1 M</strong></div>
 <div class="readout readout-b" aria-label="Link status 100 percent">LINK STATUS<strong class="telemetry-value" data-telemetry="link">100%</strong></div>
 <div class="readout readout-c" aria-label="Vector 45.0 degrees">VECTOR<strong class="telemetry-value" data-telemetry="vector">45.0 DEG</strong></div>
-<div class="visual-label" aria-label="DXC Flight System 01">DXC / Flight System 01</div>
+<div class="visual-label is-pending" aria-label="DXC Flight System 01">DXC / Flight System 01</div>
 </div>
 
 </section>
 
 <section class="features snap-section" id="capabilities" data-snap-panel>
 
+<div class="features-grid" aria-hidden="true"></div>
+
 <div class="section-heading">
 <div>
 <span class="section-kicker">Core capabilities</span>
 <h2>From Embedded Control to Autonomy</h2>
+<p class="integration-message">Engineered from End to End</p>
 </div>
 </div>
 
 <div class="grid">
 
-<div class="card">
+<a class="card" href="/main/about.html#embedded-systems">
 <span class="card-label">Hardware / Firmware</span>
 <h3>Embedded Electronics</h3>
 <p>
 Custom control hardware, power electronics, sensor integration, and real-time firmware form the foundation of each robotic platform.
 </p>
-</div>
+</a>
 
-<div class="card">
+<a class="card" href="/main/about.html#autonomous-robotics">
 <span class="card-label">Perception / Navigation</span>
 <h3>Autonomous Robotics</h3>
 <p>
 Our aerial systems combine onboard perception, state estimation, and navigation to operate with less continuous input from the pilot.
 </p>
-</div>
+</a>
 
-<div class="card">
+<a class="card" href="/main/about.html#mission-software">
 <span class="card-label">Control / Communications</span>
 <h3>Mission Software</h3>
 <p>
 Secure communications and mission-control software coordinate individual vehicles and multi-platform operations.
 </p>
-</div>
+</a>
 
 </div>
 
 </section>
-
-<section class="about snap-section" id="engineering" data-snap-panel>
-
-<div class="engineering-layout">
-
-<div>
-
-<h2>
-One System, Engineered End to End
-</h2>
-
-<p>
-DXC develops hardware, firmware, and autonomy as one coordinated system. Designing every layer together reduces integration risk and keeps each platform aligned with its mission.
-</p>
-
-</div>
-
-<div class="mockup">
-<div class="mockup-grid" aria-hidden="true"></div>
-<span class="stack-label">Unified architecture</span>
-<a class="system-row" href="/main/about.html#embedded-systems">
-<span class="system-index">01</span>
-<strong>Embedded Hardware</strong>
-<span class="status-light" aria-label="Online"></span>
-</a>
-<a class="system-row" href="/main/about.html#autonomous-robotics">
-<span class="system-index">02</span>
-<strong>Autonomous Intelligence</strong>
-<span class="status-light" aria-label="Online"></span>
-</a>
-<a class="system-row" href="/main/about.html#mission-software">
-<span class="system-index">03</span>
-<strong>Real-time Control</strong>
-<span class="status-light" aria-label="Online"></span>
-</a>
-</div>
-
-</div>
 
 <footer>
 
 © 2026 DXControls
 
 </footer>
-
-</section>
 
 <script>
 // Briefly calibrate the hero telemetry, then settle on the intended readouts.
@@ -974,24 +880,19 @@ const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matc
 if (!reducedMotion) {
   const telemetry = [
     {
-      element: document.querySelector('[data-telemetry="altitude"]'),
-      startValue: 184,
-      targetValue: 314.1,
-      wobble: 38,
-      formatValue: (value, complete) => complete ? '314.1 M' : `${value.toFixed(1)} M`,
-      finalValue: '314.1 M',
-      duration: 1750,
-      delay: 120
-    },
-    {
       element: document.querySelector('[data-telemetry="link"]'),
       startValue: 93.4,
       targetValue: 100,
       wobble: 1.7,
       formatValue: (value, complete) => complete ? '100%' : `${value.toFixed(1)}%`,
+      formatLiveValue: (value) => value >= 99.95 ? '100%' : `${value.toFixed(1)}%`,
       finalValue: '100%',
-      duration: 1900,
-      delay: 210
+      duration: 1730,
+      liveBaseline: 99.96,
+      liveAmplitude: .04,
+      livePeriod: 10400,
+      livePhase: .7,
+      liveMaximum: 100
     },
     {
       element: document.querySelector('[data-telemetry="vector"]'),
@@ -999,11 +900,31 @@ if (!reducedMotion) {
       targetValue: 45,
       wobble: 15,
       formatValue: (value, complete) => complete ? '45.0 DEG' : `${value.toFixed(1)} DEG`,
+      formatLiveValue: (value) => `${value.toFixed(1)} DEG`,
       finalValue: '45.0 DEG',
-      duration: 1825,
-      delay: 300
+      duration: 2130,
+      liveBaseline: 45,
+      liveAmplitude: .08,
+      livePeriod: 8800,
+      livePhase: 2.1
+    },
+    {
+      element: document.querySelector('[data-telemetry="altitude"]'),
+      startValue: 184,
+      targetValue: 314.1,
+      wobble: 38,
+      formatValue: (value, complete) => complete ? '314.1 M' : `${value.toFixed(1)} M`,
+      formatLiveValue: (value) => `${value.toFixed(1)} M`,
+      finalValue: '314.1 M',
+      duration: 2510,
+      liveBaseline: 314.1,
+      liveAmplitude: .12,
+      livePeriod: 11600,
+      livePhase: 4.2
     }
   ];
+
+  const sequenceStartedAt = performance.now();
 
   telemetry.forEach(({
     element,
@@ -1012,83 +933,185 @@ if (!reducedMotion) {
     wobble,
     formatValue,
     finalValue,
-    duration,
-    delay
+    duration
   }) => {
-    window.setTimeout(() => {
-      const startedAt = performance.now();
-      element.classList.add('is-calibrating');
+    element.classList.add('is-calibrating');
 
-      const update = (now) => {
-        const progress = Math.min((now - startedAt) / duration, 1);
-        const easedProgress = 1 - Math.pow(1 - progress, 3);
-        const settlingWave =
-          Math.sin(progress * Math.PI * 7) * wobble * Math.pow(1 - progress, 1.7);
-        const interpolated =
-          startValue + (targetValue - startValue) * easedProgress + settlingWave;
-        element.textContent = formatValue(interpolated, progress === 1);
+    const update = (now) => {
+      const progress = Math.min((now - sequenceStartedAt) / duration, 1);
+      const easedProgress = 1 - Math.pow(1 - progress, 3);
+      const settlingWave =
+        Math.sin(progress * Math.PI * 7) * wobble * Math.pow(1 - progress, 1.7);
+      const interpolated =
+        startValue + (targetValue - startValue) * easedProgress + settlingWave;
+      element.textContent = formatValue(interpolated, progress === 1);
 
-        if (progress < 1) {
-          window.requestAnimationFrame(update);
-        } else {
-          element.textContent = finalValue;
-          element.classList.remove('is-calibrating');
-        }
-      };
+      if (progress < 1) {
+        window.requestAnimationFrame(update);
+      } else {
+        element.textContent = finalValue;
+        element.classList.remove('is-calibrating');
+      }
+    };
 
-      window.requestAnimationFrame(update);
-    }, delay);
+    window.requestAnimationFrame(update);
   });
+
+  const startLiveTelemetry = () => {
+    const liveStartedAt = performance.now();
+
+    const updateLiveTelemetry = (now) => {
+      const elapsed = now - liveStartedAt;
+      const blend = Math.min(elapsed / 1400, 1);
+
+      telemetry.forEach(({
+        element,
+        targetValue,
+        liveBaseline,
+        liveAmplitude,
+        livePeriod,
+        livePhase,
+        liveMaximum,
+        formatLiveValue
+      }) => {
+        const primaryWave = Math.sin(
+          elapsed / livePeriod * Math.PI * 2 + livePhase
+        );
+        const secondaryWave = Math.sin(
+          elapsed / livePeriod * Math.PI * 4.6 + livePhase * .61
+        );
+        const drift =
+          (primaryWave * .78 + secondaryWave * .22) * liveAmplitude;
+        let liveValue =
+          targetValue + ((liveBaseline - targetValue) + drift) * blend;
+
+        if (Number.isFinite(liveMaximum)) {
+          liveValue = Math.min(liveValue, liveMaximum);
+        }
+
+        element.textContent = formatLiveValue(liveValue);
+      });
+
+      window.requestAnimationFrame(updateLiveTelemetry);
+    };
+
+    window.requestAnimationFrame(updateLiveTelemetry);
+  };
 
   const systemLabel = document.querySelector('.visual-label');
   const finalLabel = systemLabel.textContent.toUpperCase();
   const cipherGlyphs = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/+-';
-  const labelStartedAt = performance.now();
-  const labelDuration = 1750;
+  const labelDuration = 3900;
+  const scrambleLabel = (revealedCharacters = 0) =>
+    [...finalLabel].map((character, index) => {
+      if (character === ' ') return ' ';
+      if (index < revealedCharacters) return character;
+      return cipherGlyphs[Math.floor(Math.random() * cipherGlyphs.length)];
+    }).join('');
+
+  systemLabel.textContent = scrambleLabel();
+  systemLabel.classList.remove('is-pending');
   systemLabel.classList.add('is-decoding');
 
   const decodeLabel = (now) => {
-    const progress = Math.min((now - labelStartedAt) / labelDuration, 1);
+    const progress = Math.min((now - sequenceStartedAt) / labelDuration, 1);
     const revealedCharacters = Math.floor(progress * finalLabel.length);
 
-    systemLabel.textContent = [...finalLabel].map((character, index) => {
-      if (character === ' ') return ' ';
-      if (index < revealedCharacters || progress === 1) return character;
-      return cipherGlyphs[Math.floor(Math.random() * cipherGlyphs.length)];
-    }).join('');
+    systemLabel.textContent =
+      progress === 1 ? finalLabel : scrambleLabel(revealedCharacters);
 
     if (progress < 1) {
       window.requestAnimationFrame(decodeLabel);
     } else {
-      systemLabel.textContent = finalLabel;
       systemLabel.classList.remove('is-decoding');
+      startLiveTelemetry();
     }
   };
 
   window.requestAnimationFrame(decodeLabel);
+} else {
+  document.querySelector('.visual-label')?.classList.remove('is-pending');
 }
 
-const engineeringMockup = document.querySelector('#engineering .mockup');
+const sectionNavLinks = [
+  ...document.querySelectorAll('.section-nav a')
+];
+const snapSections = [
+  ...document.querySelectorAll('[data-snap-panel]')
+];
+let activeSectionHref = '';
+let sectionNavFrame = 0;
 
-if (engineeringMockup) {
-  const gridLayer = engineeringMockup.querySelector('.mockup-grid');
-  const systemRows = [...engineeringMockup.querySelectorAll('.system-row')];
-  const horizontalSpacing = 22;
-  const verticalSpacing = 22;
-  const lineStagger = .07;
+const updateSectionNavigation = () => {
+  sectionNavFrame = 0;
+  if (!sectionNavLinks.length || !snapSections.length) return;
+
+  const scrollPadding = Number.parseFloat(
+    getComputedStyle(document.documentElement).scrollPaddingTop
+  ) || 0;
+  const activeSection = snapSections.reduce((nearest, section) => {
+    const nearestDistance = Math.abs(
+      nearest.offsetTop - scrollPadding - window.scrollY
+    );
+    const sectionDistance = Math.abs(
+      section.offsetTop - scrollPadding - window.scrollY
+    );
+    return sectionDistance < nearestDistance ? section : nearest;
+  });
+  const nextHref = `#${activeSection.id}`;
+
+  if (nextHref === activeSectionHref) return;
+  activeSectionHref = nextHref;
+
+  sectionNavLinks.forEach((link) => {
+    const isActive = link.getAttribute('href') === nextHref;
+    link.classList.toggle('is-active', isActive);
+
+    if (isActive) {
+      link.setAttribute('aria-current', 'true');
+    } else {
+      link.removeAttribute('aria-current');
+    }
+  });
+};
+
+const queueSectionNavigationUpdate = () => {
+  if (sectionNavFrame) return;
+  sectionNavFrame = window.requestAnimationFrame(updateSectionNavigation);
+};
+
+window.addEventListener('scroll', queueSectionNavigationUpdate, {
+  passive: true
+});
+window.addEventListener('resize', queueSectionNavigationUpdate);
+updateSectionNavigation();
+
+const capabilitySection = document.querySelector('#capabilities');
+
+if (capabilitySection) {
+  const gridLayer = capabilitySection.querySelector('.features-grid');
+  const capabilityCards = [
+    ...capabilitySection.querySelectorAll('.card')
+  ];
+  const horizontalSpacing = 34;
+  const verticalSpacing = 34;
+  // Horizontal rows descend more deliberately; the later vertical-line
+  // sequence retains its quicker cadence.
+  const horizontalStagger = .105;
+  const verticalStagger = .05;
   const entranceDelay = .5;
   const horizontalCount = Math.ceil(
-    engineeringMockup.offsetHeight / horizontalSpacing
+    capabilitySection.offsetHeight / horizontalSpacing
   ) + 1;
   const verticalCount = Math.ceil(
-    engineeringMockup.offsetWidth / verticalSpacing
+    capabilitySection.offsetWidth / verticalSpacing
   ) + 1;
   const verticalStart =
-    entranceDelay + horizontalCount * lineStagger + .32;
+    entranceDelay + horizontalCount * horizontalStagger + .32;
 
   const addGridLine = (orientation, index, count, delay) => {
     const line = document.createElement('span');
-    line.className = `mockup-grid-line is-${orientation}`;
+    line.className = `feature-grid-line is-${orientation}`;
     line.style.setProperty(
       orientation === 'horizontal' ? 'top' : 'left',
       `${index / (count - 1) * 100}%`
@@ -1102,7 +1125,7 @@ if (engineeringMockup) {
       'horizontal',
       index,
       horizontalCount,
-      entranceDelay + index * lineStagger
+      entranceDelay + index * horizontalStagger
     );
   }
 
@@ -1111,33 +1134,37 @@ if (engineeringMockup) {
       'vertical',
       index,
       verticalCount,
-      verticalStart + index * lineStagger
+      verticalStart + index * verticalStagger
     );
   }
 
-  systemRows.forEach((row) => {
-    const rowCenter = row.offsetTop + row.offsetHeight / 2;
+  const sectionRect = capabilitySection.getBoundingClientRect();
+
+  capabilityCards.forEach((card) => {
+    const cardRect = card.getBoundingClientRect();
+    const cardCenter =
+      cardRect.top - sectionRect.top + cardRect.height / 2;
     const matchingLine = Math.round(
-      rowCenter / engineeringMockup.offsetHeight * (horizontalCount - 1)
+      cardCenter / capabilitySection.offsetHeight * (horizontalCount - 1)
     );
-    row.style.setProperty(
+    card.style.setProperty(
       '--sweep-delay',
-      `${entranceDelay + matchingLine * lineStagger}s`
+      `${entranceDelay + matchingLine * horizontalStagger}s`
     );
   });
 
   if (reducedMotion || !('IntersectionObserver' in window)) {
-    engineeringMockup.classList.add('is-revealed');
+    capabilitySection.classList.add('is-revealed');
   } else {
-    const mockupObserver = new IntersectionObserver((entries, observer) => {
+    const capabilityObserver = new IntersectionObserver((entries, observer) => {
       const visibleEntry = entries.find((entry) => entry.isIntersecting);
       if (!visibleEntry) return;
 
-      engineeringMockup.classList.add('is-revealed');
-      observer.unobserve(engineeringMockup);
-    }, { threshold: .42 });
+      capabilitySection.classList.add('is-revealed');
+      observer.unobserve(capabilitySection);
+    }, { threshold: .45 });
 
-    mockupObserver.observe(engineeringMockup);
+    capabilityObserver.observe(capabilitySection);
   }
 }
 
