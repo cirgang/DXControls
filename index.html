@@ -39,6 +39,24 @@ body{
     color:var(--forge-white);
 }
 
+.home-page{
+    position:relative;
+    isolation:isolate;
+    overflow:hidden;
+    background:linear-gradient(
+        180deg,
+        #171A1F 0%,
+        #20252B 48%,
+        #181C21 100%
+    );
+}
+
+.home-grid-stage{
+    position:relative;
+    isolation:isolate;
+    overflow:hidden;
+}
+
 nav{
     display:flex;
     justify-content:space-between;
@@ -88,40 +106,11 @@ nav a:hover{
     gap:7vw;
     align-items:center;
     padding:110px 8% 30px;
-    background:
-    radial-gradient(circle at 22% 34%,rgba(255,138,31,.12) 0%,transparent 34%),
-    linear-gradient(135deg,#121417 0%,#16191d 55%,#121417 100%);
+    background:transparent;
     position:relative;
+    z-index:1;
     isolation:isolate;
     overflow:hidden;
-}
-
-.hero::before{
-    content:"";
-    position:absolute;
-    z-index:-1;
-    inset:82px 0 0;
-    background-image:
-        linear-gradient(var(--telemetry-grid-color) 1px,transparent 1px),
-        linear-gradient(90deg,var(--telemetry-grid-color) 1px,transparent 1px);
-    background-size:var(--telemetry-grid-size) var(--telemetry-grid-size);
-    mask-image:linear-gradient(
-        90deg,
-        black 8%,
-        black 42%,
-        rgba(0,0,0,.55) 72%,
-        rgba(0,0,0,.28)
-    );
-}
-
-.hero::after{
-    content:"";
-    position:absolute;
-    z-index:-1;
-    inset:auto 0 0;
-    height:150px;
-    background:linear-gradient(to bottom,transparent,var(--forge-bg));
-    pointer-events:none;
 }
 
 .hero h1{
@@ -364,71 +353,19 @@ nav a:hover{
     text-shadow:none;
 }
 
-.section-nav{
-    position:fixed;
-    z-index:90;
-    left:28px;
-    top:50%;
-    translate:0 -50%;
-    display:grid;
-    gap:13px;
-}
-
-.section-nav a{
-    width:7px;
-    height:7px;
-    border:1px solid var(--forge-muted);
-    background:var(--forge-bg);
-    rotate:45deg;
-    transition:
-        border-color .25s ease,
-        background-color .25s ease,
-        box-shadow .25s ease,
-        scale .25s ease;
-}
-
-.section-nav a:hover,
-.section-nav a:focus-visible{
-    border-color:var(--forge-orange);
-    background:var(--forge-orange);
-    scale:1.35;
-}
-
-.section-nav a.is-active{
-    border-color:var(--forge-orange);
-    background:var(--forge-orange);
-    box-shadow:0 0 12px rgba(255,138,31,.72);
-    scale:1.35;
-    animation:section-signal-in .42s ease-out;
-}
-
-@keyframes section-signal-in{
-    0%{
-        scale:.85;
-        box-shadow:0 0 0 rgba(255,138,31,0);
-    }
-    55%{scale:1.65;}
-    100%{
-        scale:1.35;
-        box-shadow:0 0 12px rgba(255,138,31,.72);
-    }
-}
-
 .features{
     padding:110px 8% 40px;
-    background:
-        linear-gradient(to bottom,var(--forge-bg),transparent 34%),
-        linear-gradient(135deg,rgba(43,48,56,.18),transparent 42%),
-        var(--forge-bg);
+    background:transparent;
     display:flex;
     flex-direction:column;
     justify-content:center;
     position:relative;
+    z-index:1;
     isolation:isolate;
     overflow:hidden;
 }
 
-.features-grid{
+.home-grid{
     position:absolute;
     z-index:0;
     inset:0;
@@ -436,23 +373,21 @@ nav a:hover{
     pointer-events:none;
     -webkit-mask-image:linear-gradient(
         to bottom,
-        transparent 0,
-        rgba(0,0,0,.18) 10%,
-        rgba(0,0,0,.72) 30%,
-        rgba(0,0,0,.46) 68%,
+        rgba(0,0,0,.82) 0,
+        black 22%,
+        black calc(100% - 72px),
         transparent 100%
     );
     mask-image:linear-gradient(
         to bottom,
-        transparent 0,
-        rgba(0,0,0,.18) 10%,
-        rgba(0,0,0,.72) 30%,
-        rgba(0,0,0,.46) 68%,
+        rgba(0,0,0,.82) 0,
+        black 22%,
+        black calc(100% - 72px),
         transparent 100%
     );
 }
 
-.feature-grid-line{
+.home-grid-line{
     position:absolute;
     display:block;
     opacity:0;
@@ -460,7 +395,7 @@ nav a:hover{
     box-shadow:0 0 8px rgba(255,138,31,.2);
 }
 
-.feature-grid-line.is-horizontal{
+.home-grid-line.is-horizontal{
     left:0;
     width:100%;
     height:1px;
@@ -468,7 +403,7 @@ nav a:hover{
     transform-origin:left center;
 }
 
-.feature-grid-line.is-vertical{
+.home-grid-line.is-vertical{
     top:0;
     width:1px;
     height:100%;
@@ -476,11 +411,11 @@ nav a:hover{
     transform-origin:center top;
 }
 
-.features.is-revealed .feature-grid-line.is-horizontal{
+.home-page.is-grid-revealed .home-grid-line.is-horizontal{
     animation:feature-horizontal-line-in .65s ease-out var(--line-delay) forwards;
 }
 
-.features.is-revealed .feature-grid-line.is-vertical{
+.home-page.is-grid-revealed .home-grid-line.is-vertical{
     animation:feature-vertical-line-in .6s ease-out var(--line-delay) forwards;
 }
 
@@ -609,7 +544,7 @@ nav a:hover{
     z-index:1;
 }
 
-.features.is-revealed .card::after{
+.home-page.is-grid-revealed .card::after{
     animation:
         capability-card-sweep 1.9s cubic-bezier(.22,.72,.2,1)
         var(--sweep-delay)
@@ -661,13 +596,11 @@ footer{
     text-align:center;
     color:var(--forge-muted);
     border-top:1px solid var(--forge-line);
+    position:relative;
+    z-index:1;
 }
 
 @media(min-width:901px){
-html{
-scroll-snap-type:y mandatory;
-}
-
 .hero-copy{
 grid-column:2;
 grid-row:1;
@@ -676,17 +609,6 @@ grid-row:1;
 .hero-visual{
 grid-column:1;
 grid-row:1;
-}
-
-html.is-wheel-snapping{
-scroll-behavior:auto;
-scroll-snap-type:none;
-}
-
-.snap-section{
-min-height:100svh;
-scroll-snap-align:start;
-scroll-snap-stop:always;
 }
 }
 
@@ -727,18 +649,10 @@ nav ul{
 display:none;
 }
 
-.section-nav{
-display:none;
-}
-
 }
 
 @media(prefers-reduced-motion:reduce){
-.section-nav a.is-active{
-animation:none;
-}
-
-.feature-grid-line{
+.home-grid-line{
 animation:none!important;
 opacity:1;
 transform:none;
@@ -771,12 +685,11 @@ DX<span>Controls</span>
 
 </nav>
 
-<aside class="section-nav" aria-label="Homepage sections">
-<a href="#overview" aria-label="Overview"></a>
-<a href="#capabilities" aria-label="Capabilities"></a>
-</aside>
+<div class="home-page">
+<div class="home-grid-stage">
+<div class="home-grid" aria-hidden="true"></div>
 
-<section class="hero snap-section" id="overview" data-snap-panel>
+<section class="hero" id="overview">
 
 <div class="hero-copy">
 
@@ -825,9 +738,7 @@ Learn More
 
 </section>
 
-<section class="features snap-section" id="capabilities" data-snap-panel>
-
-<div class="features-grid" aria-hidden="true"></div>
+<section class="features" id="capabilities">
 
 <div class="section-heading">
 <div>
@@ -867,11 +778,14 @@ Secure communications and mission-control software coordinate individual vehicle
 
 </section>
 
+</div>
+
 <footer>
 
 © 2026 DXControls
 
 </footer>
+</div>
 
 <script>
 // Briefly calibrate the hero telemetry, then settle on the intended readouts.
@@ -887,7 +801,7 @@ if (!reducedMotion) {
       formatValue: (value, complete) => complete ? '100%' : `${value.toFixed(1)}%`,
       formatLiveValue: (value) => value >= 99.95 ? '100%' : `${value.toFixed(1)}%`,
       finalValue: '100%',
-      duration: 1730,
+      duration: 2250,
       liveBaseline: 99.96,
       liveAmplitude: .04,
       livePeriod: 10400,
@@ -902,7 +816,7 @@ if (!reducedMotion) {
       formatValue: (value, complete) => complete ? '45.0 DEG' : `${value.toFixed(1)} DEG`,
       formatLiveValue: (value) => `${value.toFixed(1)} DEG`,
       finalValue: '45.0 DEG',
-      duration: 2130,
+      duration: 2750,
       liveBaseline: 45,
       liveAmplitude: .08,
       livePeriod: 8800,
@@ -916,7 +830,7 @@ if (!reducedMotion) {
       formatValue: (value, complete) => complete ? '314.1 M' : `${value.toFixed(1)} M`,
       formatLiveValue: (value) => `${value.toFixed(1)} M`,
       finalValue: '314.1 M',
-      duration: 2510,
+      duration: 3250,
       liveBaseline: 314.1,
       liveAmplitude: .12,
       livePeriod: 11600,
@@ -1001,7 +915,7 @@ if (!reducedMotion) {
   const systemLabel = document.querySelector('.visual-label');
   const finalLabel = systemLabel.textContent.toUpperCase();
   const cipherGlyphs = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/+-';
-  const labelDuration = 3900;
+  const labelDuration = 5000;
   const scrambleLabel = (revealedCharacters = 0) =>
     [...finalLabel].map((character, index) => {
       if (character === ' ') return ' ';
@@ -1033,119 +947,100 @@ if (!reducedMotion) {
   document.querySelector('.visual-label')?.classList.remove('is-pending');
 }
 
-const sectionNavLinks = [
-  ...document.querySelectorAll('.section-nav a')
-];
-const snapSections = [
-  ...document.querySelectorAll('[data-snap-panel]')
-];
-let activeSectionHref = '';
-let sectionNavFrame = 0;
-
-const updateSectionNavigation = () => {
-  sectionNavFrame = 0;
-  if (!sectionNavLinks.length || !snapSections.length) return;
-
-  const scrollPadding = Number.parseFloat(
-    getComputedStyle(document.documentElement).scrollPaddingTop
-  ) || 0;
-  const activeSection = snapSections.reduce((nearest, section) => {
-    const nearestDistance = Math.abs(
-      nearest.offsetTop - scrollPadding - window.scrollY
-    );
-    const sectionDistance = Math.abs(
-      section.offsetTop - scrollPadding - window.scrollY
-    );
-    return sectionDistance < nearestDistance ? section : nearest;
-  });
-  const nextHref = `#${activeSection.id}`;
-
-  if (nextHref === activeSectionHref) return;
-  activeSectionHref = nextHref;
-
-  sectionNavLinks.forEach((link) => {
-    const isActive = link.getAttribute('href') === nextHref;
-    link.classList.toggle('is-active', isActive);
-
-    if (isActive) {
-      link.setAttribute('aria-current', 'true');
-    } else {
-      link.removeAttribute('aria-current');
-    }
-  });
-};
-
-const queueSectionNavigationUpdate = () => {
-  if (sectionNavFrame) return;
-  sectionNavFrame = window.requestAnimationFrame(updateSectionNavigation);
-};
-
-window.addEventListener('scroll', queueSectionNavigationUpdate, {
-  passive: true
-});
-window.addEventListener('resize', queueSectionNavigationUpdate);
-updateSectionNavigation();
-
+const homePage = document.querySelector('.home-page');
+const gridStage = homePage?.querySelector('.home-grid-stage');
+const gridLayer = homePage?.querySelector('.home-grid');
+const heroVisual = homePage?.querySelector('.hero-visual');
 const capabilitySection = document.querySelector('#capabilities');
 
-if (capabilitySection) {
-  const gridLayer = capabilitySection.querySelector('.features-grid');
+if (homePage && gridStage && gridLayer && heroVisual && capabilitySection) {
   const capabilityCards = [
     ...capabilitySection.querySelectorAll('.card')
   ];
-  const horizontalSpacing = 34;
-  const verticalSpacing = 34;
+  const gridSpacing =
+    Number.parseFloat(
+      getComputedStyle(document.documentElement)
+        .getPropertyValue('--telemetry-grid-size')
+    ) || 34;
+  const horizontalSpacing = gridSpacing;
+  const verticalSpacing = gridSpacing;
   // Horizontal rows descend more deliberately; the later vertical-line
   // sequence retains its quicker cadence.
   const horizontalStagger = .105;
   const verticalStagger = .05;
   const entranceDelay = .5;
-  const horizontalCount = Math.ceil(
-    capabilitySection.offsetHeight / horizontalSpacing
-  ) + 1;
-  const verticalCount = Math.ceil(
-    capabilitySection.offsetWidth / verticalSpacing
-  ) + 1;
+  const stageRect = gridStage.getBoundingClientRect();
+  const visualRect = heroVisual.getBoundingClientRect();
+  const visualGridInset = 12;
+  const normalizeGridOrigin = (origin, spacing) =>
+    ((origin % spacing) + spacing) % spacing;
+  const buildGridPositions = (extent, origin, spacing) => {
+    const positions = [];
+    const firstPosition = normalizeGridOrigin(origin, spacing);
+
+    for (
+      let position = firstPosition;
+      position <= extent;
+      position += spacing
+    ) {
+      positions.push(position);
+    }
+
+    return positions;
+  };
+  const horizontalPositions = buildGridPositions(
+    gridStage.scrollHeight,
+    visualRect.top - stageRect.top + visualGridInset,
+    horizontalSpacing
+  );
+  const verticalPositions = buildGridPositions(
+    gridStage.offsetWidth,
+    visualRect.left - stageRect.left + visualGridInset,
+    verticalSpacing
+  );
+  const horizontalCount = horizontalPositions.length;
   const verticalStart =
     entranceDelay + horizontalCount * horizontalStagger + .32;
 
-  const addGridLine = (orientation, index, count, delay) => {
+  const addGridLine = (orientation, position, delay) => {
     const line = document.createElement('span');
-    line.className = `feature-grid-line is-${orientation}`;
+    line.className = `home-grid-line is-${orientation}`;
     line.style.setProperty(
       orientation === 'horizontal' ? 'top' : 'left',
-      `${index / (count - 1) * 100}%`
+      `${position}px`
     );
     line.style.setProperty('--line-delay', `${delay}s`);
     gridLayer.appendChild(line);
   };
 
-  for (let index = 0; index < horizontalCount; index += 1) {
+  horizontalPositions.forEach((position, index) => {
     addGridLine(
       'horizontal',
-      index,
-      horizontalCount,
+      position,
       entranceDelay + index * horizontalStagger
     );
-  }
+  });
 
-  for (let index = 0; index < verticalCount; index += 1) {
+  verticalPositions.forEach((position, index) => {
     addGridLine(
       'vertical',
-      index,
-      verticalCount,
+      position,
       verticalStart + index * verticalStagger
     );
-  }
-
-  const sectionRect = capabilitySection.getBoundingClientRect();
+  });
 
   capabilityCards.forEach((card) => {
     const cardRect = card.getBoundingClientRect();
     const cardCenter =
-      cardRect.top - sectionRect.top + cardRect.height / 2;
-    const matchingLine = Math.round(
-      cardCenter / capabilitySection.offsetHeight * (horizontalCount - 1)
+      cardRect.top - stageRect.top + cardRect.height / 2;
+    const matchingLine = Math.max(
+      0,
+      Math.min(
+        horizontalCount - 1,
+        Math.round(
+          (cardCenter - horizontalPositions[0]) / horizontalSpacing
+        )
+      )
     );
     card.style.setProperty(
       '--sweep-delay',
@@ -1153,23 +1048,10 @@ if (capabilitySection) {
     );
   });
 
-  if (reducedMotion || !('IntersectionObserver' in window)) {
-    capabilitySection.classList.add('is-revealed');
-  } else {
-    const capabilityObserver = new IntersectionObserver((entries, observer) => {
-      const visibleEntry = entries.find((entry) => entry.isIntersecting);
-      if (!visibleEntry) return;
-
-      capabilitySection.classList.add('is-revealed');
-      observer.unobserve(capabilitySection);
-    }, { threshold: .45 });
-
-    capabilityObserver.observe(capabilitySection);
-  }
+  homePage.classList.add('is-grid-revealed');
 }
 
 </script>
-<script src="/snap-scroll.js"></script>
 
 </body>
 </html>
