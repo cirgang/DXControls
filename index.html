@@ -40,15 +40,22 @@ body{
 }
 
 .home-page{
+    --page-scroll-shade:0;
+    --section-scroll-shade:0;
     position:relative;
     isolation:isolate;
     overflow:hidden;
-    background:linear-gradient(
-        180deg,
-        #171A1F 0%,
-        #20252B 48%,
-        #181C21 100%
-    );
+    background:
+        linear-gradient(
+            rgba(6,8,10,var(--page-scroll-shade)),
+            rgba(6,8,10,var(--page-scroll-shade))
+        ),
+        linear-gradient(
+            180deg,
+            #171A1F 0%,
+            #20252B 48%,
+            #181C21 100%
+        );
 }
 
 .home-grid-stage{
@@ -355,7 +362,11 @@ nav a:hover{
 
 .features{
     padding:110px 8% 40px;
-    background:transparent;
+    background:linear-gradient(
+        to bottom,
+        rgba(18,20,23,0) 0%,
+        rgba(5,7,9,var(--section-scroll-shade)) 100%
+    );
     display:flex;
     flex-direction:column;
     justify-content:center;
@@ -952,6 +963,53 @@ const gridStage = homePage?.querySelector('.home-grid-stage');
 const gridLayer = homePage?.querySelector('.home-grid');
 const heroVisual = homePage?.querySelector('.hero-visual');
 const capabilitySection = document.querySelector('#capabilities');
+
+if (homePage && capabilitySection) {
+  if (reducedMotion) {
+    homePage.style.setProperty('--page-scroll-shade', '.28');
+    homePage.style.setProperty('--section-scroll-shade', '.72');
+  } else {
+    let capabilityGradientFrame = 0;
+
+    const updateCapabilityGradient = () => {
+      capabilityGradientFrame = 0;
+      const sectionTop = capabilitySection.offsetTop;
+      const fadeStart = Math.max(sectionTop - window.innerHeight, 0);
+      const maximumScrollY = Math.max(
+        document.documentElement.scrollHeight - window.innerHeight,
+        1
+      );
+      const fadeEnd = Math.max(maximumScrollY, fadeStart + 1);
+      const progress = Math.min(
+        Math.max((window.scrollY - fadeStart) / (fadeEnd - fadeStart), 0),
+        1
+      );
+      const easedProgress =
+        progress * progress * (3 - 2 * progress);
+
+      homePage.style.setProperty(
+        '--page-scroll-shade',
+        (easedProgress * .46).toFixed(3)
+      );
+      homePage.style.setProperty(
+        '--section-scroll-shade',
+        (easedProgress * .82).toFixed(3)
+      );
+    };
+
+    const queueCapabilityGradientUpdate = () => {
+      if (capabilityGradientFrame) return;
+      capabilityGradientFrame =
+        window.requestAnimationFrame(updateCapabilityGradient);
+    };
+
+    window.addEventListener('scroll', queueCapabilityGradientUpdate, {
+      passive: true
+    });
+    window.addEventListener('resize', queueCapabilityGradientUpdate);
+    updateCapabilityGradient();
+  }
+}
 
 if (homePage && gridStage && gridLayer && heroVisual && capabilitySection) {
   const capabilityCards = [
