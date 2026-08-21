@@ -1,12 +1,21 @@
 :root {
-  --forge-bg: #121417;
-  --forge-surface: #2b3038;
-  --forge-surface-deep: #1b1f24;
-  --forge-orange: #ff8a1f;
-  --forge-orange-hover: #ffa24d;
-  --forge-muted: #a8afba;
-  --forge-white: #f7f8fa;
-  --forge-line: rgba(168, 175, 186, 0.18);
+  --brand-green: #5f704b;
+  --brand-cream: #f6f5ec;
+  --brand-dark: #434343;
+  --brand-green-hover: #71835b;
+  --brand-muted: rgba(246, 245, 236, 0.68);
+  --brand-line: rgba(246, 245, 236, 0.16);
+  --brand-surface: rgba(246, 245, 236, 0.055);
+
+  /* Compatibility aliases for the existing static-page styles. */
+  --forge-bg: var(--brand-dark);
+  --forge-surface: var(--brand-surface);
+  --forge-surface-deep: var(--brand-surface);
+  --forge-orange: var(--brand-green);
+  --forge-orange-hover: var(--brand-green-hover);
+  --forge-muted: var(--brand-muted);
+  --forge-white: var(--brand-cream);
+  --forge-line: var(--brand-line);
 }
 
 body {
@@ -16,7 +25,7 @@ body {
 }
 
 nav {
-  background: rgba(18, 20, 23, 0.9);
+  background: rgba(67, 67, 67, 0.92);
   border-bottom: 1px solid var(--forge-line);
   backdrop-filter: blur(12px);
   align-items: center;
@@ -30,24 +39,32 @@ nav {
   letter-spacing: 1px;
   line-height: 1.2;
   white-space: nowrap;
+  color: var(--brand-green);
 }
 
-.logo span,
-nav a:hover,
 .section h2,
 .card h3,
 .content h2,
 .text h2 {
-  color: var(--forge-orange);
+  color: var(--brand-cream);
+}
+
+.logo span {
+  color: var(--brand-cream);
 }
 
 nav a {
   color: var(--forge-white);
 }
 
+nav a:hover {
+  color: var(--brand-cream);
+  box-shadow: inset 0 -1px var(--brand-green);
+}
+
 .hero {
   background:
-    radial-gradient(circle at 50% 0, rgba(255, 138, 31, 0.11), transparent 42%),
+    radial-gradient(circle at 50% 0, rgba(95, 112, 75, 0.22), transparent 42%),
     var(--forge-bg);
 }
 
@@ -64,14 +81,14 @@ nav a {
 .placeholder,
 input,
 textarea {
-  background: var(--forge-surface-deep);
+  background: var(--brand-surface);
   border-color: var(--forge-line);
   color: var(--forge-muted);
   border-radius: 6px;
 }
 
 .card {
-  box-shadow: 0 24px 55px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 24px 55px rgba(67, 67, 67, 0.22);
 }
 
 .image,
@@ -80,14 +97,14 @@ textarea {
 }
 
 .tech:nth-child(even) {
-  background: var(--forge-surface-deep);
+  background: var(--brand-surface);
 }
 
 .status,
 .button,
 button {
   background: var(--forge-orange);
-  color: var(--forge-bg);
+  color: var(--brand-cream);
 }
 
 .button:hover,

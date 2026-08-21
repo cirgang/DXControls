@@ -16,16 +16,23 @@
 }
 
 :root{
-    --forge-bg:#121417;
-    --forge-surface:#2B3038;
-    --forge-surface-deep:#1B1F24;
-    --forge-orange:#FF8A1F;
-    --forge-orange-hover:#FFA24D;
-    --forge-muted:#A8AFBA;
-    --forge-white:#F7F8FA;
-    --forge-line:rgba(168,175,186,.18);
+    --brand-green:#5F704B;
+    --brand-cream:#F6F5EC;
+    --brand-dark:#434343;
+    --brand-green-hover:#71835B;
+    --brand-muted:rgba(246,245,236,.68);
+    --brand-line:rgba(246,245,236,.16);
+    --brand-surface:rgba(246,245,236,.055);
+    --forge-bg:var(--brand-dark);
+    --forge-surface:var(--brand-surface);
+    --forge-surface-deep:var(--brand-surface);
+    --forge-orange:var(--brand-green);
+    --forge-orange-hover:var(--brand-green-hover);
+    --forge-muted:var(--brand-muted);
+    --forge-white:var(--brand-cream);
+    --forge-line:var(--brand-line);
     --telemetry-grid-size:34px;
-    --telemetry-grid-color:rgba(255,138,31,.07);
+    --telemetry-grid-color:rgba(95,112,75,.11);
     --telemetry-grid-origin:82px;
 }
 
@@ -51,12 +58,7 @@ body{
             rgba(6,8,10,var(--page-scroll-shade)),
             rgba(6,8,10,var(--page-scroll-shade))
         ),
-        linear-gradient(
-            180deg,
-            #171A1F 0%,
-            #20252B 48%,
-            #181C21 100%
-        );
+        var(--brand-dark);
 }
 
 .home-grid-stage{
@@ -73,7 +75,7 @@ nav{
     position:fixed;
     width:100%;
     backdrop-filter:blur(12px);
-    background:rgba(18,20,23,.82);
+    background:rgba(67,67,67,.9);
     border-bottom:1px solid var(--forge-line);
     z-index:100;
 }
@@ -85,10 +87,11 @@ nav{
     letter-spacing:1px;
     line-height:1.2;
     white-space:nowrap;
+    color:var(--brand-green);
 }
 
 .logo span{
-    color:var(--forge-orange);
+    color:var(--brand-cream);
 }
 
 nav ul{
@@ -104,7 +107,8 @@ nav a{
 }
 
 nav a:hover{
-    color:var(--forge-orange);
+    color:var(--brand-cream);
+    box-shadow:inset 0 -1px var(--brand-green);
 }
 
 .hero{
@@ -130,7 +134,11 @@ nav a:hover{
 }
 
 .hero h1 span{
-    color:var(--forge-orange);
+    color:var(--brand-cream);
+    text-decoration:underline;
+    text-decoration-color:var(--brand-green);
+    text-decoration-thickness:3px;
+    text-underline-offset:10px;
 }
 
 .hero p{
@@ -157,7 +165,6 @@ nav a:hover{
     width:8px;
     height:8px;
     background:var(--forge-orange);
-    box-shadow:0 0 18px rgba(255,138,31,.75);
 }
 
 .buttons{
@@ -177,7 +184,7 @@ nav a:hover{
 
 .primary{
     background:var(--forge-orange);
-    color:var(--forge-bg);
+    color:var(--brand-cream);
 }
 
 .primary:hover{
@@ -186,36 +193,44 @@ nav a:hover{
 }
 
 .secondary{
-    border:1px solid rgba(247,248,250,.42);
+    border:1px solid rgba(246,245,236,.42);
     color:var(--forge-white);
 }
 
 .secondary:hover{
     border-color:var(--forge-orange);
-    color:var(--forge-orange);
+    color:var(--brand-cream);
 }
 
 .hero-visual{
     position:relative;
     min-height:440px;
     overflow:hidden;
-    border:1px solid rgba(168,175,186,.14);
-    background:linear-gradient(145deg,rgba(43,48,56,.28),rgba(18,20,23,.08));
-    box-shadow:inset 0 0 80px rgba(18,20,23,.18);
+    border:1px solid rgba(246,245,236,.16);
+    background:linear-gradient(
+        145deg,
+        rgba(246,245,236,.035),
+        rgba(67,67,67,.08)
+    );
+    box-shadow:inset 0 0 80px rgba(95,112,75,.1);
 }
 
 .hero-visual::before{
     content:"";
     position:absolute;
     inset:0;
-    background:radial-gradient(circle at center,rgba(255,138,31,.07),transparent 56%);
+    background:radial-gradient(
+        circle at center,
+        rgba(95,112,75,.14),
+        transparent 58%
+    );
 }
 
 .hero-visual::after{
     content:"";
     position:absolute;
     inset:12px;
-    border:1px solid rgba(255,138,31,.2);
+    border:1px solid rgba(95,112,75,.38);
     pointer-events:none;
 }
 
@@ -224,16 +239,17 @@ nav a:hover{
     left:50%;
     top:50%;
     translate:-50% -50%;
-    border:1px solid rgba(168,175,186,.35);
+    border:1px solid rgba(246,245,236,.24);
     border-radius:50%;
 }
 
 .orbit-one{width:330px;height:330px}
+
 .orbit-two{
     width:218px;
     height:218px;
-    border-color:rgba(255,138,31,.48);
-    box-shadow:0 0 55px rgba(255,138,31,.08);
+    border-color:rgba(95,112,75,.62);
+    box-shadow:0 0 55px rgba(95,112,75,.12);
 }
 
 .drone{
@@ -243,7 +259,7 @@ nav a:hover{
     width:226px;
     height:226px;
     translate:-50% -50%;
-    filter:drop-shadow(0 20px 22px rgba(0,0,0,.48));
+    filter:drop-shadow(0 20px 22px rgba(67,67,67,.5));
 }
 
 .drone-arm{
@@ -252,7 +268,12 @@ nav a:hover{
     top:111px;
     width:166px;
     height:5px;
-    background:linear-gradient(90deg,var(--forge-muted),var(--forge-orange),var(--forge-muted));
+    background:linear-gradient(
+        90deg,
+        var(--forge-muted),
+        var(--forge-orange),
+        var(--forge-muted)
+    );
     transform-origin:center;
 }
 
@@ -265,8 +286,8 @@ nav a:hover{
     height:47px;
     border:3px solid var(--forge-muted);
     border-radius:50%;
-    background:rgba(18,20,23,.7);
-    box-shadow:inset 0 0 0 7px rgba(168,175,186,.08);
+    background:var(--brand-dark);
+    box-shadow:inset 0 0 0 7px rgba(246,245,236,.06);
 }
 
 .rotor::after{
@@ -290,7 +311,7 @@ nav a:hover{
     top:74px;
     background:var(--forge-white);
     clip-path:polygon(50% 0,100% 72%,70% 100%,30% 100%,0 72%);
-    box-shadow:inset 0 -16px 0 rgba(168,175,186,.45);
+    box-shadow:inset 0 -16px 0 rgba(95,112,75,.42);
 }
 
 .drone-body::after{
@@ -322,8 +343,8 @@ nav a:hover{
 
 .telemetry-value{
     text-shadow:
-        0 0 9px rgba(255,138,31,.65),
-        0 0 18px rgba(255,138,31,.28);
+        0 0 9px rgba(95,112,75,.78),
+        0 0 18px rgba(95,112,75,.38);
 }
 
 .telemetry-value.is-calibrating{
@@ -333,27 +354,27 @@ nav a:hover{
 @keyframes telemetry-pulse{
     50%{
         opacity:.54;
-        text-shadow:0 0 8px rgba(255,138,31,.65);
+        text-shadow:0 0 8px rgba(95,112,75,.78);
     }
 }
 
 .readout-a{left:28px;top:28px}
 .readout-b{right:28px;top:28px;text-align:right}
 .readout-c{right:28px;bottom:28px;text-align:right}
-.readout-c strong{color:var(--forge-orange)}
+.readout-c strong{color:var(--brand-cream)}
 
 .visual-label{
     position:absolute;
     left:28px;
     bottom:28px;
-    color:var(--forge-orange);
+    color:var(--brand-cream);
     font-size:10px;
     font-weight:600;
     letter-spacing:.18em;
     text-transform:uppercase;
     text-shadow:
-        0 0 12px rgba(255,138,31,.78),
-        0 0 24px rgba(255,138,31,.28);
+        0 0 12px rgba(95,112,75,.82),
+        0 0 24px rgba(95,112,75,.4);
 }
 
 .visual-label.is-pending{
@@ -365,7 +386,7 @@ nav a:hover{
     padding:110px 8% 40px;
     background:linear-gradient(
         to bottom,
-        rgba(18,20,23,0) 0%,
+        rgba(67,67,67,0) 0%,
         rgba(5,7,9,var(--section-scroll-shade)) 100%
     );
     display:flex;
@@ -403,8 +424,7 @@ nav a:hover{
     position:absolute;
     display:block;
     opacity:0;
-    background:rgba(255,138,31,.14);
-    box-shadow:0 0 8px rgba(255,138,31,.2);
+    background:rgba(95,112,75,.22);
 }
 
 .home-grid-line.is-horizontal{
@@ -455,7 +475,7 @@ nav a:hover{
 
 .section-kicker,
 .card-label{
-    color:var(--forge-orange);
+    color:var(--brand-cream);
     font-size:11px;
     font-weight:600;
     letter-spacing:.16em;
@@ -471,7 +491,7 @@ nav a:hover{
 
 .integration-message{
     margin-top:16px;
-    color:var(--forge-orange);
+    color:var(--brand-muted);
     font-size:13px;
     font-weight:600;
     letter-spacing:.16em;
@@ -525,7 +545,7 @@ nav a:hover{
     position:absolute;
     right:28px;
     top:22px;
-    color:rgba(247,248,250,.08);
+    color:rgba(246,245,236,.08);
     font-size:72px;
     font-weight:700;
     letter-spacing:-.08em;
@@ -546,8 +566,8 @@ nav a:hover{
     background:linear-gradient(
         90deg,
         transparent,
-        rgba(255,138,31,.18) 48%,
-        rgba(255,138,31,.05)
+        rgba(95,112,75,.22) 48%,
+        rgba(95,112,75,.06)
     );
 }
 
@@ -585,11 +605,11 @@ nav a:hover{
     border-color:var(--forge-orange);
     transform:translateY(-6px);
     outline:none;
-    box-shadow:0 18px 38px rgba(0,0,0,.2);
+    box-shadow:0 18px 38px rgba(67,67,67,.25);
 }
 
 .card h3{
-    color:var(--forge-orange);
+    color:var(--brand-cream);
     font-size:24px;
     margin-bottom:15px;
 }
@@ -800,7 +820,6 @@ Secure communications and mission-control software coordinate individual vehicle
 </div>
 
 <script>
-// Briefly calibrate the hero telemetry, then settle on the intended readouts.
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 if (!reducedMotion) {
@@ -958,6 +977,7 @@ if (!reducedMotion) {
 } else {
   document.querySelector('.visual-label')?.classList.remove('is-pending');
 }
+
 
 const homePage = document.querySelector('.home-page');
 const gridStage = homePage?.querySelector('.home-grid-stage');
