@@ -69,26 +69,6 @@ body .hero{
 background:var(--forge-bg);
 }
 
-.hero::before{
-content:"";
-position:absolute;
-z-index:-1;
-inset:0;
-opacity:0;
-background:radial-gradient(
-circle at 50% 0,
-rgba(95,112,75,.22),
-transparent 45%
-);
-animation:about-glow-in .8s ease-out .08s forwards;
-}
-
-@keyframes about-glow-in{
-to{
-opacity:1;
-}
-}
-
 .hero h1{
 font-size:64px;
 margin-bottom:20px;
@@ -328,7 +308,7 @@ We develop miniature UAVs, embedded controllers, and autonomous sensing platform
 <small>Intelligence</small>
 <h3>Autonomous Robotics</h3>
 </div>
-<p class="step-copy">Sensors, intelligent control, and machine-learning methods build on that hardware foundation, allowing robotic platforms to perceive their surroundings and act without constant operator input.</p>
+<p class="step-copy">Sensors, intelligent control, and machine-learning methods build on that hardware foundation, allowing robotic platforms to perceive their surroundings and act without constant operator input. Proprietary state estimators, such as extended Kalman filters, enable reliable navigation with less dependence on visual sensors.</p>
 </article>
 
 <article class="approach-step" id="mission-software">
@@ -354,7 +334,7 @@ We develop miniature UAVs, embedded controllers, and autonomous sensing platform
 
 <footer>
 
-© 2026 DXControls
+© 2026 DXControls, Inc.
 
 </footer>
 
