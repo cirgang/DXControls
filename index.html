@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#434343">
 
 <title>DXControls</title>
 <link rel="icon" type="image/x-icon" href="DXC Favicon.ico">
@@ -16,6 +17,7 @@
 }
 
 :root{
+    color-scheme:dark;
     --brand-green:#5F704B;
     --brand-cream:#F6F5EC;
     --brand-dark:#434343;
@@ -530,6 +532,11 @@ grid-row:1;
 }
 
 @media(max-width:900px){
+
+.home-page{
+--page-scroll-shade:0 !important;
+--section-scroll-shade:0 !important;
+}
 
 .section-heading{
 grid-template-columns:1fr;

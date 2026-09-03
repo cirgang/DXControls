@@ -1,4 +1,5 @@
 :root {
+  color-scheme: dark;
   --brand-green: #5f704b;
   --brand-cream: #f6f5ec;
   --brand-dark: #434343;
@@ -115,6 +116,12 @@ button:hover {
 input:focus,
 textarea:focus {
   border-color: var(--forge-orange);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--forge-muted);
+  opacity: 1;
 }
 
 td {
