@@ -31,9 +31,6 @@
     --forge-muted:var(--brand-muted);
     --forge-white:var(--brand-cream);
     --forge-line:var(--brand-line);
-    --telemetry-grid-size:34px;
-    --telemetry-grid-color:rgba(95,112,75,.11);
-    --telemetry-grid-origin:82px;
 }
 
 html{
@@ -59,12 +56,6 @@ body{
             rgba(6,8,10,var(--page-scroll-shade))
         ),
         var(--brand-dark);
-}
-
-.home-grid-stage{
-    position:relative;
-    isolation:isolate;
-    overflow:hidden;
 }
 
 nav{
@@ -351,6 +342,10 @@ nav a:hover{
     animation:telemetry-pulse .52s ease-in-out infinite;
 }
 
+.readout-c .telemetry-value{
+    text-shadow:none;
+}
+
 @keyframes telemetry-pulse{
     50%{
         opacity:.54;
@@ -396,73 +391,6 @@ nav a:hover{
     z-index:1;
     isolation:isolate;
     overflow:hidden;
-}
-
-.home-grid{
-    position:absolute;
-    z-index:0;
-    inset:0;
-    overflow:hidden;
-    pointer-events:none;
-    -webkit-mask-image:linear-gradient(
-        to bottom,
-        rgba(0,0,0,.82) 0,
-        black 22%,
-        black calc(100% - 72px),
-        transparent 100%
-    );
-    mask-image:linear-gradient(
-        to bottom,
-        rgba(0,0,0,.82) 0,
-        black 22%,
-        black calc(100% - 72px),
-        transparent 100%
-    );
-}
-
-.home-grid-line{
-    position:absolute;
-    display:block;
-    opacity:0;
-    background:rgba(95,112,75,.22);
-}
-
-.home-grid-line.is-horizontal{
-    left:0;
-    width:100%;
-    height:1px;
-    transform:scaleX(0);
-    transform-origin:left center;
-}
-
-.home-grid-line.is-vertical{
-    top:0;
-    width:1px;
-    height:100%;
-    transform:scaleY(0);
-    transform-origin:center top;
-}
-
-.home-page.is-grid-revealed .home-grid-line.is-horizontal{
-    animation:feature-horizontal-line-in .65s ease-out var(--line-delay) forwards;
-}
-
-.home-page.is-grid-revealed .home-grid-line.is-vertical{
-    animation:feature-vertical-line-in .6s ease-out var(--line-delay) forwards;
-}
-
-@keyframes feature-horizontal-line-in{
-    to{
-        opacity:1;
-        transform:scaleX(1);
-    }
-}
-
-@keyframes feature-vertical-line-in{
-    to{
-        opacity:1;
-        transform:scaleY(1);
-    }
 }
 
 .section-heading{
@@ -552,52 +480,9 @@ nav a:hover{
     z-index:1;
 }
 
-.card::after{
-    content:"";
-    position:absolute;
-    z-index:0;
-    left:0;
-    top:0;
-    width:30%;
-    height:100%;
-    pointer-events:none;
-    opacity:0;
-    transform:translateX(-360%) skewX(-18deg);
-    background:linear-gradient(
-        90deg,
-        transparent,
-        rgba(95,112,75,.22) 48%,
-        rgba(95,112,75,.06)
-    );
-}
-
 .card > *{
     position:relative;
     z-index:1;
-}
-
-.home-page.is-grid-revealed .card::after{
-    animation:
-        capability-card-sweep 1.9s cubic-bezier(.22,.72,.2,1)
-        var(--sweep-delay)
-        forwards;
-}
-
-@keyframes capability-card-sweep{
-    0%{
-        opacity:0;
-        transform:translateX(-360%) skewX(-18deg);
-    }
-    16%{
-        opacity:1;
-    }
-    78%{
-        opacity:.72;
-    }
-    100%{
-        opacity:0;
-        transform:translateX(360%) skewX(-18deg);
-    }
 }
 
 .card:hover,
@@ -683,18 +568,6 @@ display:none;
 
 }
 
-@media(prefers-reduced-motion:reduce){
-.home-grid-line{
-animation:none!important;
-opacity:1;
-transform:none;
-}
-
-.card::after{
-animation:none!important;
-display:none;
-}
-}
 </style>
 
 </head>
@@ -718,8 +591,6 @@ DX<span>Controls</span>
 </nav>
 
 <div class="home-page">
-<div class="home-grid-stage">
-<div class="home-grid" aria-hidden="true"></div>
 
 <section class="hero" id="overview">
 
@@ -810,11 +681,9 @@ Secure communications and mission-control software coordinate individual vehicle
 
 </section>
 
-</div>
-
 <footer>
 
-© 2026 DXControls
+© 2026 DXControls, Inc.
 
 </footer>
 </div>
@@ -838,20 +707,6 @@ if (!reducedMotion) {
       livePeriod: 10400,
       livePhase: .7,
       liveMaximum: 100
-    },
-    {
-      element: document.querySelector('[data-telemetry="vector"]'),
-      startValue: 78,
-      targetValue: 45,
-      wobble: 15,
-      formatValue: (value, complete) => complete ? '45.0 DEG' : `${value.toFixed(1)} DEG`,
-      formatLiveValue: (value) => `${value.toFixed(1)} DEG`,
-      finalValue: '45.0 DEG',
-      duration: 2750,
-      liveBaseline: 45,
-      liveAmplitude: .08,
-      livePeriod: 8800,
-      livePhase: 2.1
     },
     {
       element: document.querySelector('[data-telemetry="altitude"]'),
@@ -980,9 +835,6 @@ if (!reducedMotion) {
 
 
 const homePage = document.querySelector('.home-page');
-const gridStage = homePage?.querySelector('.home-grid-stage');
-const gridLayer = homePage?.querySelector('.home-grid');
-const heroVisual = homePage?.querySelector('.hero-visual');
 const capabilitySection = document.querySelector('#capabilities');
 
 if (homePage && capabilitySection) {
@@ -1030,104 +882,6 @@ if (homePage && capabilitySection) {
     window.addEventListener('resize', queueCapabilityGradientUpdate);
     updateCapabilityGradient();
   }
-}
-
-if (homePage && gridStage && gridLayer && heroVisual && capabilitySection) {
-  const capabilityCards = [
-    ...capabilitySection.querySelectorAll('.card')
-  ];
-  const gridSpacing =
-    Number.parseFloat(
-      getComputedStyle(document.documentElement)
-        .getPropertyValue('--telemetry-grid-size')
-    ) || 34;
-  const horizontalSpacing = gridSpacing;
-  const verticalSpacing = gridSpacing;
-  // Horizontal rows descend more deliberately; the later vertical-line
-  // sequence retains its quicker cadence.
-  const horizontalStagger = .105;
-  const verticalStagger = .05;
-  const entranceDelay = .5;
-  const stageRect = gridStage.getBoundingClientRect();
-  const visualRect = heroVisual.getBoundingClientRect();
-  const visualGridInset = 12;
-  const normalizeGridOrigin = (origin, spacing) =>
-    ((origin % spacing) + spacing) % spacing;
-  const buildGridPositions = (extent, origin, spacing) => {
-    const positions = [];
-    const firstPosition = normalizeGridOrigin(origin, spacing);
-
-    for (
-      let position = firstPosition;
-      position <= extent;
-      position += spacing
-    ) {
-      positions.push(position);
-    }
-
-    return positions;
-  };
-  const horizontalPositions = buildGridPositions(
-    gridStage.scrollHeight,
-    visualRect.top - stageRect.top + visualGridInset,
-    horizontalSpacing
-  );
-  const verticalPositions = buildGridPositions(
-    gridStage.offsetWidth,
-    visualRect.left - stageRect.left + visualGridInset,
-    verticalSpacing
-  );
-  const horizontalCount = horizontalPositions.length;
-  const verticalStart =
-    entranceDelay + horizontalCount * horizontalStagger + .32;
-
-  const addGridLine = (orientation, position, delay) => {
-    const line = document.createElement('span');
-    line.className = `home-grid-line is-${orientation}`;
-    line.style.setProperty(
-      orientation === 'horizontal' ? 'top' : 'left',
-      `${position}px`
-    );
-    line.style.setProperty('--line-delay', `${delay}s`);
-    gridLayer.appendChild(line);
-  };
-
-  horizontalPositions.forEach((position, index) => {
-    addGridLine(
-      'horizontal',
-      position,
-      entranceDelay + index * horizontalStagger
-    );
-  });
-
-  verticalPositions.forEach((position, index) => {
-    addGridLine(
-      'vertical',
-      position,
-      verticalStart + index * verticalStagger
-    );
-  });
-
-  capabilityCards.forEach((card) => {
-    const cardRect = card.getBoundingClientRect();
-    const cardCenter =
-      cardRect.top - stageRect.top + cardRect.height / 2;
-    const matchingLine = Math.max(
-      0,
-      Math.min(
-        horizontalCount - 1,
-        Math.round(
-          (cardCenter - horizontalPositions[0]) / horizontalSpacing
-        )
-      )
-    );
-    card.style.setProperty(
-      '--sweep-delay',
-      `${entranceDelay + matchingLine * horizontalStagger}s`
-    );
-  });
-
-  homePage.classList.add('is-grid-revealed');
 }
 
 </script>
